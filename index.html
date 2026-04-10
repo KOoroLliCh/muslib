@@ -38,14 +38,20 @@
     /* Мы НЕ меняем ширину и позиционирование, чтобы сетка не "взрывалась" */
 }
         /* 1. БАЗОВЫЕ СТИЛИ */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505;
-            margin: 0;
-            padding: 40px 10px 160px; /* Большой отступ снизу для плеера */
-            color: #fff;
-        }
-
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Незаметный радиальный градиент: из очень темно-серого в глубокий черный */
+    background: radial-gradient(
+        circle at 50% 30%, 
+        #0c0c0c 0%, 
+        #050505 100%
+    );
+    background-attachment: fixed; /* Чтобы градиент не двигался при скролле */
+    margin: 0;
+    padding: 40px 10px 160px;
+    color: #fff;
+    min-height: 100vh;
+}
         h1 {
             text-align: center;
             letter-spacing: 15px;
@@ -76,7 +82,8 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             box-sizing: border-box;
-	    
+	    --hover-shadow: rgba(255, 255, 255, 0.1); /* Цвет по умолчанию */
+   	    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card img {
@@ -117,15 +124,20 @@
         }
 
         /* 3. ЭФФЕКТЫ (НАВЕДЕНИЕ И ВОСПРОИЗВЕДЕНИЕ) */
-        .card:hover, .card.playing {
-            border-color: #fff;
-            background-color: #111;
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-        }
+	.card:hover {
+   	    border-color: var(--accent-color, #fff); /* Цвет границы станет как у обложки */
+   	    background-color: #111;
+   	    transform: translateY(-10px);
+   	    /* Свечение берет цвет из переменной, которую мы подставим через JS */
+   	    box-shadow: 0 15px 40px var(--hover-shadow);
+	}
 
         .card:hover img, .card.playing img {
             filter: grayscale(0%);
+	    filter: grayscale(0%);
+    		 transform: scale(1.05);
+   		 /* Добавляем мягкое свечение самой картинке */
+   		 box-shadow: 0 0 20px var(--hover-shadow);
         }
 
         .card.playing img {
@@ -397,6 +409,38 @@
     </div>
 
     <script>
+	function applyDynamicColors() {
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        const img = card.querySelector('img');
+        
+        // Когда картинка загружена, берем её цвет
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 1;
+            canvas.height = 1;
+            
+            // Рисуем картинку в 1 пиксель, чтобы получить средний цвет
+            ctx.drawImage(img, 0, 0, 1, 1);
+            const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+            
+            // Устанавливаем переменные для CSS
+            const color = `rgb(${r}, ${g}, ${b})`;
+            const shadow = `rgba(${r}, ${g}, ${b}, 0.3)`;
+            
+            card.style.setProperty('--accent-color', color);
+            card.style.setProperty('--hover-shadow', shadow);
+        };
+        
+        // Если картинка уже в кэше и загружена
+        if (img.complete) img.onload();
+    });
+}
+
+// Запусти функцию после загрузки страницы
+window.addEventListener('load', applyDynamicColors);
 // Функция для проверки схожести строк (алгоритм Левенштейна)
 function isSimilar(s1, s2) {
     let longer = s1.length > s2.length ? s1 : s2;
