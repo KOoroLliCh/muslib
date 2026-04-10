@@ -2,99 +2,48 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>МУЗЫКА</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-	/* Панель плеера внизу */
-.player-controls {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+	.search-box {
+    max-width: 400px;
+    margin: 0 auto 50px;
+    text-align: center;
+}
+
+#searchInput {
     width: 100%;
-    background: rgba(10, 10, 10, 0.95);
-    backdrop-filter: blur(15px);
-    border-top: 1px solid #222;
-    padding: 15px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1000;
-}
-
-.controls-buttons {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 10px;
-}
-
-.btn {
-    background: none;
-    border: none;
+    padding: 12px 20px;
+    background: #0a0a0a;
+    border: 1px solid #222;
+    border-radius: 30px;
     color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    outline: none;
     transition: 0.3s;
 }
 
-.btn:hover { color: #aaa; transform: scale(1.1); }
-.btn-main { font-size: 2rem; }
-
-/* Полоса прогресса */
-.progress-container {
-    width: 60%;
-    height: 4px;
-    background: #222;
-    border-radius: 10px;
-    cursor: pointer;
-    position: relative;
+#searchInput:focus {
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+/* Скроем карточки, которые не подходят под поиск */
+.card.hidden {
+ opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Чтобы нельзя было кликнуть на невидимую */
+    /* Мы НЕ меняем ширину и позиционирование, чтобы сетка не "взрывалась" */
 }
-
-.time-info {
-    font-size: 10px;
-    color: #555;
-    margin-top: 5px;
-    width: 60%;
-    display: flex;
-    justify-content: space-between;
-}
-	.card {
-    cursor: pointer;
-    transition: all 0.4s ease;
-}
-
-/* Эффект, когда музыка играет */
-.playing {
-    border-color: #fff !important;
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.25) !important;
-    transform: scale(1.05);
-}
-
-.playing img {
-    filter: grayscale(0%) !important;
-    opacity: 1 !important;
-    animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
+        /* 1. БАЗОВЫЕ СТИЛИ */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #050505; /* Глубокий черный */
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
             margin: 0;
-            padding: 40px 20px;
+            padding: 40px 10px 160px; /* Большой отступ снизу для плеера */
             color: #fff;
-	    padding-bottom: 120px;
         }
 
         h1 {
@@ -104,39 +53,36 @@
             font-size: 2rem;
             font-weight: 300;
             margin-bottom: 60px;
-            /* Легкое свечение заголовка */
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
-        table {
-            border-collapse: separate;
-            border-spacing: 25px; 
+        /* 2. СЕТКА КАРТОЧЕК */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1250px;
             margin: 0 auto;
         }
 
-        td {
+        .card {
             background-color: #0a0a0a;
             border: 1px solid #1a1a1a; 
-            border-radius: 20px; /* Скругление ячеек */
+            border-radius: 20px;
             padding: 20px;
-            width: 200px;
+            width: 210px;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-sizing: border-box;
+	    
         }
 
-        /* Эффект при наведении */
-        td:hover {
-            border-color: #fff;
-            background-color: #111;
-            transform: translateY(-10px);
-            /* Мягкое белое свечение */
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-        }
-
-        img {
+        .card img {
             border-radius: 12px;
-            width: 160px; /* Фиксированный размер для красоты */
-            height: 160px;
+            width: 100%;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             filter: grayscale(100%);
             transition: 0.5s ease;
@@ -144,289 +90,466 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        td:hover img {
-            filter: grayscale(0%); /* Цвет возвращается при наведении */
-            transform: scale(1.05);
-        }
-
-        h2 {
+        .card h2 {
             font-size: 1rem;
             margin: 10px 0 5px;
             font-weight: 500;
-            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        p {
+        .card p {
             color: #666;
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             margin: 5px 0;
+        }
+
+        .genre {
+            color: #444 !important;
+            font-size: 10px !important;
+            border-top: 1px solid #1a1a1a;
+            padding-top: 8px;
+            margin-top: 12px !important;
+            letter-spacing: 1px;
+        }
+
+        /* 3. ЭФФЕКТЫ (НАВЕДЕНИЕ И ВОСПРОИЗВЕДЕНИЕ) */
+        .card:hover, .card.playing {
+            border-color: #fff;
+            background-color: #111;
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .card:hover img, .card.playing img {
+            filter: grayscale(0%);
+        }
+
+        .card.playing img {
+            animation: pulse 2s infinite ease-in-out;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+        }
+
+        /* 4. ПЛЕЕР */
+        .player-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid #222;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .controls-buttons {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
             transition: 0.3s;
         }
 
-        td:hover p {
-            color: #aaa;
-        }
+        .btn:hover { color: #aaa; transform: scale(1.1); }
+        .btn-main { font-size: 2.5rem; }
 
-        /* Стиль для жанра (Pop) */
-        p[style*="font-size: 12px"] {
-            color: #444 !important;
-            font-size: 10px !important;
-            border-top: 1px solid #222;
-            padding-top: 5px;
-            margin-top: 10px;
-        }
-
-        a {
-            text-decoration: none;
-            display: block;
-        }
-	.genre {
-    color: #444 !important; /* Очень темный серый */
-    font-size: 10px !important;
-    border-top: 1px solid #1a1a1a; /* Тонкая линия разделения */
-    padding-top: 8px;
-    margin-top: 12px !important;
-    font-weight: 400;
-    letter-spacing: 1px;
+.progress-container {
+    width: 90%;           /* Занимает почти всю ширину на малых экранах */
+    max-width: 800px;     /* Фиксированный максимум на ПК */
+    height: 8px;          /* Нормальная толщина, чтобы было видно */
+    background: #222;     /* Темный фон дорожки */
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    margin: 5px 0;        /* Отступы сверху и снизу */
+    overflow: hidden;     /* Чтобы углы полоски не вылезали за контейнер */
 }
 
-td:hover .genre {
-    color: #888 !important; /* Становится светлее при наведении */
-    border-top-color: #333;
+/* Сама линия заполнения */
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #fff;     /* Яркий белый цвет */
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* Свечение для видимости */
+    transition: width 0.1s linear; /* Плавное движение без рывков */
 }
+
+/* Контейнер с цифрами времени */
+.time-info {
+    font-size: 12px;      /* Чуть крупнее шрифт */
+    font-family: monospace; /* Моноширинный шрифт, чтобы цифры не "прыгали" */
+    color: #888;
+    width: 90%;           /* Строго совпадает с шириной полоски */
+    max-width: 800px;     /* Строго совпадает с максимумом полоски */
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+        /* 5. МОБИЛЬНАЯ АДАПТАЦИЯ */
+        @media (max-width: 600px) {
+            .grid-container {
+                gap: 15px;
+                padding: 0 10px;
+            }
+            .card {
+                width: calc(50% - 10px); /* 2 колонки */
+                padding: 12px;
+            }
+            .card h2 { font-size: 0.9rem; }
+            /* Последняя нечетная карточка по центру */
+            .card:last-child:nth-child(odd) {
+                margin: 0 auto;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <h1>МУЗЫКA</h1>
-
- <table>
-        <!-- РЯД 1: KANYE WEST -->
-        <tr>
-            <td onclick="togglePlay('track1', this)">
-                <audio id="track1" src="music/runaway.mp3"></audio>
-                <img src='kw2.png'>
-                <h2>Runaway</h2>
-                <p>Kanye West</p>
-                <p class="genre">Hip-Hop / Rap</p>
-            </td>
-            <td onclick="togglePlay('track2', this)">
-                <audio id="track2" src="music/iwonder.mp3"></audio>
-                <img src='kw2.png'>
-                <h2>I Wonder</h2>
-                <p>Kanye West</p>
-                <p class="genre">Hip-Hop / Rap</p>
-            </td>
-            <td onclick="togglePlay('track3', this)">
-                <audio id="track3" src="music/hurricane.mp3"></audio>
-                <img src='kw2.png'>
-                <h2>Hurricane</h2>
-                <p>Kanye West</p>
-                <p class="genre">Hip-Hop / Rap</p>
-            </td>
-            <td onclick="togglePlay('track4', this)">
-                <audio id="track4" src="music/heartless.mp3"></audio>
-                <img src='kw2.png'>
-                <h2>Heartless</h2>
-                <p>Kanye West</p>
-                <p class="genre">Hip-Hop / Rap</p>
-            </td>
-            <td onclick="togglePlay('track5', this)">
-                <audio id="track5" src="music/paris.mp3"></audio>
-                <img src='kw2.png'>
-                <h2>Niggas In Paris</h2>
-                <p>Kanye West</p>
-                <p class="genre">Hip-Hop / Rap</p>
-            </td>
-        </tr>
-
-        <!-- РЯД 2: КАЙ МЕТОВ -->
-        <tr>
-            <td onclick="togglePlay('track6', this)">
-                <audio id="track6" src="music/vspomni.mp3"></audio>
-                <img src='km.jpg'>
-                <h2>Вспомни Меня</h2>
-                <p>Кай Метов</p>
-                <p class="genre">Pop</p>
-            </td>
-            <td onclick="togglePlay('track7', this)">
-                <audio id="track7" src="music/position2.mp3"></audio>
-                <img src='km.jpg'>
-                <h2>Position 2</h2>
-                <p>Кай Метов</p>
-                <p class="genre">Pop</p>
-            </td>
-            <td onclick="togglePlay('track8', this)">
-                <audio id="track8" src="music/ne_ponyala.mp3"></audio>
-                <img src='km.jpg'>
-                <h2>А Ты Меня Не Поняла</h2>
-                <p>Кай Метов</p>
-                <p class="genre">Pop</p>
-            </td>
-            <td onclick="togglePlay('track9', this)">
-                <audio id="track9" src="music/dela.mp3"></audio>
-                <img src='km.jpg'>
-                <h2>Такие Вот Дела</h2>
-                <p>Кай Метов</p>
-                <p class="genre">Pop</p>
-            </td>
-            <td onclick="togglePlay('track10', this)">
-                <audio id="track10" src="music/amore.mp3"></audio>
-                <img src='km.jpg'>
-                <h2>Аморе Мио</h2>
-                <p>Кай Метов</p>
-                <p class="genre">Pop</p>
-            </td>
-        </tr>
-
-        <!-- РЯД 3: ICE CUBE -->
-        <tr>
-            <td onclick="togglePlay('track11', this)">
-                <audio id="track11" src="music/check_yo_self.mp3"></audio>
-                <img src='ic.jpg'>
-                <h2>Check Yo Self</h2>
-                <p>Ice Cube</p>
-                <p class="genre">Gangsta Rap</p>
-            </td>
-            <td onclick="togglePlay('track12', this)">
-                <audio id="track12" src="music/smoke_weed.mp3"></audio>
-                <img src='ic.jpg'>
-                <h2>Smoke Some Weed</h2>
-                <p>Ice Cube</p>
-                <p class="genre">Gangsta Rap</p>
-            </td>
-            <td onclick="togglePlay('track13', this)">
-                <audio id="track13" src="music/why_we_thugs.mp3"></audio>
-                <img src='ic.jpg'>
-                <h2>Why We Thugs</h2>
-                <p>Ice Cube</p>
-                <p class="genre">Gangsta Rap</p>
-            </td>
-            <td onclick="togglePlay('track14', this)">
-                <audio id="track14" src="music/how_we_do_it.mp3"></audio>
-                <img src='ic.jpg'>
-                <h2>You Know How We Do It</h2>
-                <p>Ice Cube</p>
-                <p class="genre">Gangsta Rap</p>
-            </td>
-            <td onclick="togglePlay('track15', this)">
-                <audio id="track15" src="music/really_doe.mp3"></audio>
-                <img src='ic.jpg'>
-                <h2>Really Doe</h2>
-                <p>Ice Cube</p>
-                <p class="genre">Gangsta Rap</p>
-            </td>
-        </tr>
-    </table>
-	<div class="player-controls">
-    <div class="controls-buttons">
-        <button class="btn" onclick="prevTrack()">⏮</button>
-        <button class="btn btn-main" id="masterPlay" onclick="masterToggle()">▶</button>
-        <button class="btn" onclick="nextTrack()">⏭</button>
-    </div>
-    
-    <div class="progress-container" id="progressContainer">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-    
-    <div class="time-info">
-        <span id="currentTime">0:00</span>
-        <span id="duration">0:00</span>
-    </div>
+    <h1>Music Library</h1>
+    <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Поиск артиста или песни..." onkeyup="searchMusic()">
 </div>
+    <div class="grid-container">
+        <!-- КАНЬЕ УЭСТ -->
+        <div class="card" onclick="togglePlay('track1', this)">
+            <audio id="track1" src="music/runaway.mp3"></audio>
+            <img src='kw2.png'>
+            <h2>Runaway</h2>
+            <p>Kanye West</p>
+            <p class="genre">Hip-Hop / Rap</p>
+        </div>
+        <div class="card" onclick="togglePlay('track2', this)">
+            <audio id="track2" src="music/iwonder.mp3"></audio>
+            <img src='kw2.png'>
+            <h2>I Wonder</h2>
+            <p>Kanye West</p>
+            <p class="genre">Hip-Hop / Rap</p>
+        </div>
+        <div class="card" onclick="togglePlay('track3', this)">
+            <audio id="track3" src="music/hurricane.mp3"></audio>
+            <img src='kw2.png'>
+            <h2>Hurricane</h2>
+            <p>Kanye West</p>
+            <p class="genre">Hip-Hop / Rap</p>
+        </div>
+        <div class="card" onclick="togglePlay('track4', this)">
+            <audio id="track4" src="music/heartless.mp3"></audio>
+            <img src='kw2.png'>
+            <h2>Heartless</h2>
+            <p>Kanye West</p>
+            <p class="genre">Hip-Hop / Rap</p>
+        </div>
+        <div class="card" onclick="togglePlay('track5', this)">
+            <audio id="track5" src="music/paris.mp3"></audio>
+            <img src='kw2.png'>
+            <h2>Niggas In Paris</h2>
+            <p>Kanye West</p>
+            <p class="genre">Hip-Hop / Rap</p>
+        </div>
+
+        <!-- КАЙ МЕТОВ -->
+        <div class="card" onclick="togglePlay('track6', this)">
+            <audio id="track6" src="music/vspomni.mp3"></audio>
+            <img src='km.jpg'>
+            <h2>Вспомни Меня</h2>
+            <p>Кай Метов</p>
+            <p class="genre">Pop</p>
+        </div>
+        <div class="card" onclick="togglePlay('track7', this)">
+            <audio id="track7" src="music/position2.mp3"></audio>
+            <img src='km.jpg'>
+            <h2>Position 2</h2>
+            <p>Кай Метов</p>
+            <p class="genre">Pop</p>
+        </div>
+        <div class="card" onclick="togglePlay('track8', this)">
+            <audio id="track8" src="music/ne_ponyala.mp3"></audio>
+            <img src='km.jpg'>
+            <h2>А Ты Меня Не Поняла</h2>
+            <p>Кай Метов</p>
+            <p class="genre">Pop</p>
+        </div>
+        <div class="card" onclick="togglePlay('track9', this)">
+            <audio id="track9" src="music/dela.mp3"></audio>
+            <img src='km.jpg'>
+            <h2>Такие Вот Дела</h2>
+            <p>Кай Метов</p>
+            <p class="genre">Pop</p>
+        </div>
+        <div class="card" onclick="togglePlay('track10', this)">
+            <audio id="track10" src="music/amore.mp3"></audio>
+            <img src='km.jpg'>
+            <h2>Аморе Мио</h2>
+            <p>Кай Метов</p>
+            <p class="genre">Pop</p>
+        </div>
+
+        <!-- ICE CUBE -->
+        <div class="card" onclick="togglePlay('track11', this)">
+            <audio id="track11" src="music/check_yo_self.mp3"></audio>
+            <img src='ic.jpg'>
+            <h2>Check Yo Self</h2>
+            <p>Ice Cube</p>
+            <p class="genre">Gangsta Rap</p>
+        </div>
+        <div class="card" onclick="togglePlay('track12', this)">
+            <audio id="track12" src="music/smoke_weed.mp3"></audio>
+            <img src='ic.jpg'>
+            <h2>Smoke Some Weed</h2>
+            <p>Ice Cube</p>
+            <p class="genre">Gangsta Rap</p>
+        </div>
+        <div class="card" onclick="togglePlay('track13', this)">
+            <audio id="track13" src="music/why_we_thugs.mp3"></audio>
+            <img src='ic.jpg'>
+            <h2>Why We Thugs</h2>
+            <p>Ice Cube</p>
+            <p class="genre">Gangsta Rap</p>
+        </div>
+        <div class="card" onclick="togglePlay('track14', this)">
+            <audio id="track14" src="music/how_we_do_it.mp3"></audio>
+            <img src='ic.jpg'>
+            <h2>You Know How We Do It</h2>
+            <p>Ice Cube</p>
+            <p class="genre">Gangsta Rap</p>
+        </div>
+        <div class="card" onclick="togglePlay('track15', this)">
+            <audio id="track15" src="music/really_doe.mp3"></audio>
+            <img src='ic.jpg'>
+            <h2>Really Doe</h2>
+            <p>Ice Cube</p>
+            <p class="genre">Gangsta Rap</p>
+        </div>
+	<!-- РЯД 4: НИКОЛАЙ БАСКОВ -->
+<div class="card" onclick="togglePlay('track16', this)">
+    <audio id="track16" src="music/sharmanka.mp3"></audio>
+    <img src='Baskov.webp'>
+    <h2>Шарманка</h2>
+    <p>Николай Басков</p>
+    <p class="genre">Pop / Classic</p>
+</div>
+<div class="card" onclick="togglePlay('track17', this)">
+    <audio id="track17" src="music/naturalniy.mp3"></audio>
+    <img src='Baskov.webp'>
+    <h2>Натуральный блондин</h2>
+    <p>Николай Басков</p>
+    <p class="genre">Pop / Classic</p>
+</div>
+<div class="card" onclick="togglePlay('track18', this)">
+    <audio id="track18" src="music/tvoi_glaza.mp3"></audio>
+    <img src='Baskov.webp'>
+    <h2>Твои глаза</h2>
+    <p>Николай Басков</p>
+    <p class="genre">Pop / Classic</p>
+</div>
+<div class="card" onclick="togglePlay('track19', this)">
+    <audio id="track19" src="music/tango.mp3"></audio>
+    <img src='Baskov.webp'>
+    <h2>Танго</h2>
+    <p>Николай Басков</p>
+    <p class="genre">Pop / Classic</p>
+</div>
+<div class="card" onclick="togglePlay('track20', this)">
+    <audio id="track20" src="music/na_nebesah.mp3"></audio>
+    <img src='Baskov.webp'>
+    <h2>На Небесах</h2>
+    <p>Николай Басков</p>
+    <p class="genre">Pop / Classic</p>
+</div>
+    </div>
+    
+    <!-- ПЛЕЕР -->
+    <div class="player-controls">
+        <div class="controls-buttons">
+            <button class="btn" onclick="prevTrack()">⏮</button>
+            <button class="btn btn-main" id="masterPlay" onclick="masterToggle()">▶</button>
+            <button class="btn" onclick="nextTrack()">⏭</button>
+        </div>
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="time-info">
+            <span id="currentTime">0:00</span>
+            <span id="duration">0:00</span>
+        </div>
+    </div>
+
     <script>
-let currentTrackIndex = 0;
-let isPlaying = false;
-const allAudios = document.querySelectorAll('audio');
-const allCells = document.querySelectorAll('td');
-const masterPlay = document.getElementById('masterPlay');
-const progressBar = document.getElementById('progressBar');
-const progressContainer = document.getElementById('progressContainer');
+// Функция для проверки схожести строк (алгоритм Левенштейна)
+function isSimilar(s1, s2) {
+    let longer = s1.length > s2.length ? s1 : s2;
+    let shorter = s1.length > s2.length ? s2 : s1;
+    
+    if (longer.length === 0) return true;
 
-function togglePlay(id, element) {
-    const audio = document.getElementById(id);
-    const index = Array.from(allAudios).indexOf(audio);
+    // Вычисляем процент схожести
+    let editDistance = (function(s1, s2) {
+        let costs = [];
+        for (let i = 0; i <= s1.length; i++) {
+            let lastValue = i;
+            for (let j = 0; j <= s2.length; j++) {
+                if (i == 0) costs[j] = j;
+                else {
+                    if (j > 0) {
+                        let newValue = costs[j - 1];
+                        if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+            }
+            if (i > 0) costs[s2.length] = lastValue;
+        }
+        return costs[s2.length];
+    })(longer, shorter);
 
-    // Если нажали на ту же песню, которая уже выбрана
-    if (currentTrackIndex === index) {
-        if (!audio.paused) {
-            pauseTrack();
+    // Допускаем ошибку, если схожесть более 70%
+    return (longer.length - editDistance) / longer.length > 0.7;
+}
+
+function searchMusic() {
+    let input = document.getElementById('searchInput').value.toLowerCase().trim();
+    let inputNoSpaces = input.replace(/\s+/g, '');
+    let cards = document.querySelectorAll('.card');
+
+    if (input === "") {
+        cards.forEach(card => {
+            card.style.display = "block";
+            card.style.opacity = "1";
+        });
+        return;
+    }
+
+    cards.forEach(card => {
+        let title = card.querySelector('h2').innerText.toLowerCase();
+        let artist = card.querySelector('p').innerText.toLowerCase();
+        let titleNoSpaces = title.replace(/\s+/g, '');
+        let artistNoSpaces = artist.replace(/\s+/g, '');
+
+        // 1. Проверяем прямое вхождение (как раньше)
+        // 2. Проверяем вхождение без пробелов
+        // 3. Проверяем схожесть (на опечатки)
+        let match = title.includes(input) || artist.includes(input) || 
+                    titleNoSpaces.includes(inputNoSpaces) || artistNoSpaces.includes(inputNoSpaces) ||
+                    isSimilar(input, title) || isSimilar(input, artist);
+
+        if (match) {
+            card.style.display = "block";
+            setTimeout(() => { card.style.opacity = "1"; }, 10);
         } else {
+            card.style.opacity = "0";
+            setTimeout(() => { 
+                if(card.style.opacity === "0") card.style.display = "none"; 
+            }, 400);
+        }
+    });
+}      let currentTrackIndex = 0;
+        let isPlaying = false;
+        const allAudios = document.querySelectorAll('audio');
+        const allCards = document.querySelectorAll('.card');
+        const masterPlay = document.getElementById('masterPlay');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+
+        function togglePlay(id, element) {
+            const audio = document.getElementById(id);
+            const index = Array.from(allAudios).indexOf(audio);
+
+            if (currentTrackIndex === index) {
+                if (!audio.paused) pauseTrack();
+                else resumeTrack();
+            } else {
+                playNewTrack(index);
+            }
+        }
+
+        function playNewTrack(index) {
+            allAudios[currentTrackIndex].pause();
+            allAudios[currentTrackIndex].currentTime = 0; 
+            allCards[currentTrackIndex].classList.remove('playing');
+            allCards[currentTrackIndex].style.opacity = "1";
+
+            currentTrackIndex = index;
             resumeTrack();
         }
-    } else {
-        // Если нажали на СОВСЕМ ДРУГУЮ песню — тогда сбрасываем старую и включаем новую
-        playNewTrack(index);
-    }
-}
 
-function playNewTrack(index) {
-    // Останавливаем старую песню полностью
-    allAudios[currentTrackIndex].pause();
-    allAudios[currentTrackIndex].currentTime = 0; 
-    allCells[currentTrackIndex].classList.remove('playing');
+        function resumeTrack() {
+            const audio = allAudios[currentTrackIndex];
+            audio.play();
+            isPlaying = true;
+            masterPlay.innerText = "⏸";
+            allCards[currentTrackIndex].classList.add('playing');
+            allCards[currentTrackIndex].style.opacity = "1";
+            audio.ontimeupdate = updateProgress;
+        }
 
-    currentTrackIndex = index;
-    resumeTrack(); // Запускаем новую
-}
+        function pauseTrack() {
+            allAudios[currentTrackIndex].pause();
+            isPlaying = false;
+            masterPlay.innerText = "▶";
+            allCards[currentTrackIndex].style.opacity = "0.7"; 
+        }
 
-function resumeTrack() {
-    const audio = allAudios[currentTrackIndex];
-    audio.play();
-    isPlaying = true;
-    masterPlay.innerText = "⏸";
-    allCells[currentTrackIndex].classList.add('playing');
-    audio.ontimeupdate = updateProgress;
-}
+        function masterToggle() {
+            if (isPlaying) pauseTrack();
+            else resumeTrack();
+        }
 
-function pauseTrack() {
-    allAudios[currentTrackIndex].pause();
-    isPlaying = false;
-    masterPlay.innerText = "▶";
-    // Оставляем класс 'playing', но можно добавить прозрачности, чтобы видеть, что это пауза
-    allCells[currentTrackIndex].style.opacity = "0.7"; 
-}
+        function nextTrack() {
+            playNewTrack((currentTrackIndex + 1) % allAudios.length);
+        }
 
-// Функцию masterToggle тоже обновим для корректной работы
-function masterToggle() {
-    if (isPlaying) pauseTrack();
-    else resumeTrack();
-}
+        function prevTrack() {
+            playNewTrack((currentTrackIndex - 1 + allAudios.length) % allAudios.length);
+        }
 
-function nextTrack() {
-    playNewTrack((currentTrackIndex + 1) % allAudios.length);
-}
+        function updateProgress(e) {
+            const { duration, currentTime } = e.srcElement;
+            if (isNaN(duration)) return;
+            const percent = (currentTime / duration) * 100;
+            progressBar.style.width = `${percent}%`;
+            
+            document.getElementById('currentTime').innerText = formatTime(currentTime);
+            document.getElementById('duration').innerText = formatTime(duration);
+            
+            if (currentTime >= duration) nextTrack();
+        }
 
-function prevTrack() {
-    playNewTrack((currentTrackIndex - 1 + allAudios.length) % allAudios.length);
-}
+        function formatTime(time) {
+            let min = Math.floor(time / 60);
+            let sec = Math.floor(time % 60);
+            return `${min}:${sec < 10 ? '0' + sec : sec}`;
+        }
 
-function updateProgress(e) {
-    const { duration, currentTime } = e.srcElement;
-    const percent = (currentTime / duration) * 100;
-    progressBar.style.width = `${percent}%`;
-    
-    document.getElementById('currentTime').innerText = formatTime(currentTime);
-    document.getElementById('duration').innerText = formatTime(duration);
-    
-    // Автоматический переход к следующему треку по завершении
-    if (currentTime === duration) nextTrack();
-}
-
-function formatTime(time) {
-    if (isNaN(time)) return "0:00";
-    let min = Math.floor(time / 60);
-    let sec = Math.floor(time % 60);
-    return `${min}:${sec < 10 ? '0' + sec : sec}`;
-}
-
-progressContainer.onclick = function(e) {
-    const width = this.clientWidth;
-    const clickX = e.offsetX;
-    const duration = allAudios[currentTrackIndex].duration;
-    allAudios[currentTrackIndex].currentTime = (clickX / width) * duration;
-};    </script>
+        progressContainer.onclick = function(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = allAudios[currentTrackIndex].duration;
+            allAudios[currentTrackIndex].currentTime = (clickX / width) * duration;
+        };
+    </script>
 </body>
 </html>
