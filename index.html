@@ -2,598 +2,779 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
-    <link href="https://googleapis.com" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Music Player | SEREBRO Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
     <style>
-	.search-box {
-    max-width: 400px;
-    margin: 0 auto 50px;
-    text-align: center;
-}
-
-#searchInput {
-    width: 100%;
-    padding: 12px 20px;
-    background: #0a0a0a;
-    border: 1px solid #222;
-    border-radius: 30px;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    outline: none;
-    transition: 0.3s;
-}
-
-#searchInput:focus {
-    border-color: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-}
-
-/* Скроем карточки, которые не подходят под поиск */
-.card.hidden {
- opacity: 0;
-    visibility: hidden;
-    pointer-events: none; /* Чтобы нельзя было кликнуть на невидимую */
-    /* Мы НЕ меняем ширину и позиционирование, чтобы сетка не "взрывалась" */
-}
-        /* 1. БАЗОВЫЕ СТИЛИ */
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    /* Незаметный радиальный градиент: из очень темно-серого в глубокий черный */
-    background: radial-gradient(
-        circle at 50% 30%, 
-        #0c0c0c 0%, 
-        #050505 100%
-    );
-    background-attachment: fixed; /* Чтобы градиент не двигался при скролле */
-    margin: 0;
-    padding: 40px 10px 160px;
-    color: #fff;
-    min-height: 100vh;
-}
-        h1 {
-            text-align: center;
-            letter-spacing: 15px;
-            text-transform: uppercase;
-            font-size: 2rem;
-            font-weight: 300;
-            margin-bottom: 60px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* 2. СЕТКА КАРТОЧЕК */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at 50% 30%, #0c0c0c 0%, #050505 100%);
+            background-attachment: fixed;
+            margin: 0;
+            padding: 40px 10px 180px;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            font-size: 1.9rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            word-break: keep-all;
+        }
+
+        .search-box {
+            max-width: 420px;
+            margin: 0 auto 50px;
+            text-align: center;
+            padding: 0 12px;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 14px 24px;
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 60px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        #searchInput:focus {
+            border-color: #fff;
+            box-shadow: 0 0 18px rgba(255, 255, 255, 0.15);
+        }
+
         .grid-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
-            max-width: 1250px;
+            gap: 28px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .card {
             background-color: #0a0a0a;
-            border: 1px solid #1a1a1a; 
-            border-radius: 20px;
-            padding: 20px;
-            width: 210px;
+            border: 1px solid #1e1e1e;
+            border-radius: 28px;
+            padding: 18px 16px 20px;
+            width: 230px;
             text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             cursor: pointer;
             box-sizing: border-box;
-	    --hover-shadow: rgba(255, 255, 255, 0.1); /* Цвет по умолчанию */
-   	    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent-color: #ffffff;
+            --hover-shadow: rgba(255, 255, 255, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            border-color: var(--accent-color);
+            background-color: #111;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 32px var(--hover-shadow);
         }
 
         .card img {
-            border-radius: 12px;
+            border-radius: 18px;
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
             filter: grayscale(100%);
-            transition: 0.5s ease;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
-
-        .card h2 {
-            font-size: 1rem;
-            margin: 10px 0 5px;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card p {
-            color: #666;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 5px 0;
-        }
-
-        .genre {
-            color: #444 !important;
-            font-size: 10px !important;
-            border-top: 1px solid #1a1a1a;
-            padding-top: 8px;
-            margin-top: 12px !important;
-            letter-spacing: 1px;
-        }
-
-        /* 3. ЭФФЕКТЫ (НАВЕДЕНИЕ И ВОСПРОИЗВЕДЕНИЕ) */
-	.card:hover {
-   	    border-color: var(--accent-color, #fff); /* Цвет границы станет как у обложки */
-   	    background-color: #111;
-   	    transform: translateY(-10px);
-   	    /* Свечение берет цвет из переменной, которую мы подставим через JS */
-   	    box-shadow: 0 15px 40px var(--hover-shadow);
-	}
 
         .card:hover img, .card.playing img {
             filter: grayscale(0%);
-	    filter: grayscale(0%);
-    		 transform: scale(1.05);
-   		 /* Добавляем мягкое свечение самой картинке */
-   		 box-shadow: 0 0 20px var(--hover-shadow);
+            transform: scale(1.02);
+            box-shadow: 0 8px 22px var(--hover-shadow);
         }
 
         .card.playing img {
-            animation: pulse 2s infinite ease-in-out;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: softPulse 2.2s infinite ease;
+            box-shadow: 0 0 22px rgba(255, 255, 255, 0.25);
         }
 
-        @keyframes pulse {
+        @keyframes softPulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.04); }
+            50% { transform: scale(1.03); }
         }
 
-        /* 4. ПЛЕЕР */
+        .card h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 8px 0 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.2px;
+        }
+
+        .card p {
+            color: #aaa;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 4px 0;
+            font-weight: 500;
+        }
+
+        .genre {
+            color: #5a5a5a !important;
+            font-size: 0.7rem !important;
+            border-top: 1px solid #202020;
+            padding-top: 10px;
+            margin-top: 12px !important;
+            letter-spacing: 0.5px;
+            font-weight: 400;
+        }
+
+        .download-btn {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid #2c2c2c;
+            border-radius: 40px;
+            padding: 8px 0;
+            margin-top: 14px;
+            width: 100%;
+            font-family: 'Inter', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #ddd;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            backdrop-filter: blur(4px);
+            letter-spacing: 0.5px;
+        }
+
+        .download-btn:hover {
+            background: var(--accent-color, #ffffff);
+            color: #000;
+            border-color: var(--accent-color);
+            transform: scale(0.98);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .download-btn:active {
+            transform: scale(0.96);
+        }
+
         .player-controls {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.98);
-            backdrop-filter: blur(15px);
-            border-top: 1px solid #222;
-            padding: 20px 0;
+            background: rgba(8, 8, 8, 0.96);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid #2a2a2a;
+            padding: 18px 20px 22px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 1000;
+            z-index: 1100;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
 
         .controls-buttons {
             display: flex;
             align-items: center;
-            gap: 30px;
-            margin-bottom: 15px;
+            gap: 32px;
+            margin-bottom: 16px;
         }
 
         .btn {
-            background: none;
+            background: transparent;
             border: none;
-            color: #fff;
-            font-size: 1.5rem;
+            color: #f0f0f0;
+            font-size: 1.9rem;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.2s;
+            padding: 0;
+            margin: 0;
+            width: auto;
+            height: auto;
+            line-height: 1;
+            font-weight: 400;
         }
 
-        .btn:hover { color: #aaa; transform: scale(1.1); }
-        .btn-main { font-size: 2.5rem; }
+        .btn:hover {
+            color: white;
+            transform: scale(1.08);
+            background: transparent;
+        }
 
-.progress-container {
-    width: 90%;           /* Занимает почти всю ширину на малых экранах */
-    max-width: 800px;     /* Фиксированный максимум на ПК */
-    height: 8px;          /* Нормальная толщина, чтобы было видно */
-    background: #222;     /* Темный фон дорожки */
-    border-radius: 10px;
-    cursor: pointer;
-    position: relative;
-    margin: 5px 0;        /* Отступы сверху и снизу */
-    overflow: hidden;     /* Чтобы углы полоски не вылезали за контейнер */
-}
+        .btn-main {
+            font-size: 2.8rem;
+            background: transparent;
+            font-weight: 500;
+        }
 
-/* Сама линия заполнения */
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #fff;     /* Яркий белый цвет */
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* Свечение для видимости */
-    transition: width 0.1s linear; /* Плавное движение без рывков */
-}
+        .progress-container {
+            width: 92%;
+            max-width: 750px;
+            height: 6px;
+            background: #2a2a2a;
+            border-radius: 20px;
+            cursor: pointer;
+            position: relative;
+            margin: 6px 0;
+            overflow: hidden;
+        }
 
-/* Контейнер с цифрами времени */
-.time-info {
-    font-size: 12px;      /* Чуть крупнее шрифт */
-    font-family: monospace; /* Моноширинный шрифт, чтобы цифры не "прыгали" */
-    color: #888;
-    width: 90%;           /* Строго совпадает с шириной полоски */
-    max-width: 800px;     /* Строго совпадает с максимумом полоски */
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
-}
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #fff, #ccc);
+            border-radius: 20px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            transition: width 0.08s linear;
+        }
 
-        /* 5. МОБИЛЬНАЯ АДАПТАЦИЯ */
-        @media (max-width: 600px) {
+        .time-info {
+            font-size: 0.75rem;
+            font-family: monospace;
+            color: #999;
+            width: 92%;
+            max-width: 750px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .card.hidden-for-search {
+            display: none !important;
+        }
+
+        @media (max-width: 640px) {
             .grid-container {
-                gap: 15px;
-                padding: 0 10px;
+                gap: 16px;
             }
             .card {
-                width: calc(50% - 10px); /* 2 колонки */
-                padding: 12px;
+                width: calc(50% - 12px);
+                padding: 14px;
             }
-            .card h2 { font-size: 0.9rem; }
-            /* Последняя нечетная карточка по центру */
-            .card:last-child:nth-child(odd) {
-                margin: 0 auto;
+            .card h2 {
+                font-size: 0.85rem;
+            }
+            .download-btn {
+                font-size: 0.65rem;
+                padding: 6px 0;
+            }
+            h1 {
+                font-size: 1.5rem;
+                letter-spacing: 6px;
+            }
+            .btn-main {
+                font-size: 2.4rem;
+            }
+            .btn {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (min-width: 1100px) {
+            .card {
+                width: 230px;
             }
         }
     </style>
 </head>
 <body>
 
-    <h1>Music Library</h1>
-    <div class="search-box">
+<h1>MUSIC LIBRARY</h1>
+<div class="search-box">
     <input type="text" id="searchInput" placeholder="Поиск артиста или песни..." onkeyup="searchMusic()">
 </div>
-    <div class="grid-container">
-        <!-- КАНЬЕ УЭСТ -->
-        <div class="card" onclick="togglePlay('track1', this)">
-            <audio id="track1" src="music/runaway.mp3"></audio>
-            <img src='kw2.png'>
-            <h2>Runaway</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-        </div>
-        <div class="card" onclick="togglePlay('track2', this)">
-            <audio id="track2" src="music/iwonder.mp3"></audio>
-            <img src='kw2.png'>
-            <h2>I Wonder</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-        </div>
-        <div class="card" onclick="togglePlay('track3', this)">
-            <audio id="track3" src="music/hurricane.mp3"></audio>
-            <img src='kw2.png'>
-            <h2>Hurricane</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-        </div>
-        <div class="card" onclick="togglePlay('track4', this)">
-            <audio id="track4" src="music/heartless.mp3"></audio>
-            <img src='kw2.png'>
-            <h2>Heartless</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-        </div>
-        <div class="card" onclick="togglePlay('track5', this)">
-            <audio id="track5" src="music/paris.mp3"></audio>
-            <img src='kw2.png'>
-            <h2>Niggas In Paris</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-        </div>
 
-        <!-- КАЙ МЕТОВ -->
-        <div class="card" onclick="togglePlay('track6', this)">
-            <audio id="track6" src="music/vspomni.mp3"></audio>
-            <img src='km.jpg'>
-            <h2>Вспомни Меня</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-        </div>
-        <div class="card" onclick="togglePlay('track7', this)">
-            <audio id="track7" src="music/position2.mp3"></audio>
-            <img src='km.jpg'>
-            <h2>Position 2</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-        </div>
-        <div class="card" onclick="togglePlay('track8', this)">
-            <audio id="track8" src="music/ne_ponyala.mp3"></audio>
-            <img src='km.jpg'>
-            <h2>А Ты Меня Не Поняла</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-        </div>
-        <div class="card" onclick="togglePlay('track9', this)">
-            <audio id="track9" src="music/dela.mp3"></audio>
-            <img src='km.jpg'>
-            <h2>Такие Вот Дела</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-        </div>
-        <div class="card" onclick="togglePlay('track10', this)">
-            <audio id="track10" src="music/amore.mp3"></audio>
-            <img src='km.jpg'>
-            <h2>Аморе Мио</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-        </div>
-
-        <!-- ICE CUBE -->
-        <div class="card" onclick="togglePlay('track11', this)">
-            <audio id="track11" src="music/check_yo_self.mp3"></audio>
-            <img src='ic.jpg'>
-            <h2>Check Yo Self</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-        </div>
-        <div class="card" onclick="togglePlay('track12', this)">
-            <audio id="track12" src="music/smoke_weed.mp3"></audio>
-            <img src='ic.jpg'>
-            <h2>Smoke Some Weed</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-        </div>
-        <div class="card" onclick="togglePlay('track13', this)">
-            <audio id="track13" src="music/why_we_thugs.mp3"></audio>
-            <img src='ic.jpg'>
-            <h2>Why We Thugs</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-        </div>
-        <div class="card" onclick="togglePlay('track14', this)">
-            <audio id="track14" src="music/how_we_do_it.mp3"></audio>
-            <img src='ic.jpg'>
-            <h2>You Know How We Do It</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-        </div>
-        <div class="card" onclick="togglePlay('track15', this)">
-            <audio id="track15" src="music/really_doe.mp3"></audio>
-            <img src='ic.jpg'>
-            <h2>Really Doe</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-        </div>
-	<!-- РЯД 4: НИКОЛАЙ БАСКОВ -->
-<div class="card" onclick="togglePlay('track16', this)">
-    <audio id="track16" src="music/sharmanka.mp3"></audio>
-    <img src='Baskov.webp'>
-    <h2>Шарманка</h2>
-    <p>Николай Басков</p>
-    <p class="genre">Pop / Classic</p>
-</div>
-<div class="card" onclick="togglePlay('track17', this)">
-    <audio id="track17" src="music/naturalniy.mp3"></audio>
-    <img src='Baskov.webp'>
-    <h2>Натуральный блондин</h2>
-    <p>Николай Басков</p>
-    <p class="genre">Pop / Classic</p>
-</div>
-<div class="card" onclick="togglePlay('track18', this)">
-    <audio id="track18" src="music/tvoi_glaza.mp3"></audio>
-    <img src='Baskov.webp'>
-    <h2>Твои глаза</h2>
-    <p>Николай Басков</p>
-    <p class="genre">Pop / Classic</p>
-</div>
-<div class="card" onclick="togglePlay('track19', this)">
-    <audio id="track19" src="music/tango.mp3"></audio>
-    <img src='Baskov.webp'>
-    <h2>Танго</h2>
-    <p>Николай Басков</p>
-    <p class="genre">Pop / Classic</p>
-</div>
-<div class="card" onclick="togglePlay('track20', this)">
-    <audio id="track20" src="music/na_nebesah.mp3"></audio>
-    <img src='Baskov.webp'>
-    <h2>На Небесах</h2>
-    <p>Николай Басков</p>
-    <p class="genre">Pop / Classic</p>
-</div>
+<div class="grid-container" id="gridContainer">
+    <!-- KANYE WEST -->
+    <div class="card" data-track-id="track1" data-artist="kanye west" data-title="runaway">
+        <audio id="track1" src="music/runaway.mp3"></audio>
+        <img src='kw2.png' alt="cover">
+        <h2>Runaway</h2>
+        <p>Kanye West</p>
+        <p class="genre">Hip-Hop / Rap</p>
+        <button class="download-btn" data-src="music/runaway.mp3" data-name="Kanye_West_Runaway">Скачать</button>
     </div>
-    
-    <!-- ПЛЕЕР -->
-    <div class="player-controls">
-        <div class="controls-buttons">
-            <button class="btn" onclick="prevTrack()">⏮</button>
-            <button class="btn btn-main" id="masterPlay" onclick="masterToggle()">▶</button>
-            <button class="btn" onclick="nextTrack()">⏭</button>
-        </div>
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="time-info">
-            <span id="currentTime">0:00</span>
-            <span id="duration">0:00</span>
-        </div>
+    <div class="card" data-track-id="track2" data-artist="kanye west" data-title="i wonder">
+        <audio id="track2" src="music/iwonder.mp3"></audio>
+        <img src='kw2.png'>
+        <h2>I Wonder</h2>
+        <p>Kanye West</p>
+        <p class="genre">Hip-Hop / Rap</p>
+        <button class="download-btn" data-src="music/iwonder.mp3" data-name="Kanye_West_I_Wonder">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track3" data-artist="kanye west" data-title="hurricane">
+        <audio id="track3" src="music/hurricane.mp3"></audio>
+        <img src='kw2.png'>
+        <h2>Hurricane</h2>
+        <p>Kanye West</p>
+        <p class="genre">Hip-Hop / Rap</p>
+        <button class="download-btn" data-src="music/hurricane.mp3" data-name="Kanye_West_Hurricane">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track4" data-artist="kanye west" data-title="heartless">
+        <audio id="track4" src="music/heartless.mp3"></audio>
+        <img src='kw2.png'>
+        <h2>Heartless</h2>
+        <p>Kanye West</p>
+        <p class="genre">Hip-Hop / Rap</p>
+        <button class="download-btn" data-src="music/heartless.mp3" data-name="Kanye_West_Heartless">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track5" data-artist="kanye west" data-title="niggas in paris">
+        <audio id="track5" src="music/paris.mp3"></audio>
+        <img src='kw2.png'>
+        <h2>Niggas In Paris</h2>
+        <p>Kanye West</p>
+        <p class="genre">Hip-Hop / Rap</p>
+        <button class="download-btn" data-src="music/paris.mp3" data-name="Kanye_West_Paris">Скачать</button>
     </div>
 
-    <script>
-	function applyDynamicColors() {
-    const cards = document.querySelectorAll('.card');
-    
-    cards.forEach(card => {
-        const img = card.querySelector('img');
-        
-        // Когда картинка загружена, берем её цвет
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 1;
-            canvas.height = 1;
-            
-            // Рисуем картинку в 1 пиксель, чтобы получить средний цвет
-            ctx.drawImage(img, 0, 0, 1, 1);
-            const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-            
-            // Устанавливаем переменные для CSS
-            const color = `rgb(${r}, ${g}, ${b})`;
-            const shadow = `rgba(${r}, ${g}, ${b}, 0.3)`;
-            
-            card.style.setProperty('--accent-color', color);
-            card.style.setProperty('--hover-shadow', shadow);
-        };
-        
-        // Если картинка уже в кэше и загружена
-        if (img.complete) img.onload();
-    });
-}
+    <!-- КАЙ МЕТОВ -->
+    <div class="card" data-track-id="track6" data-artist="кай метов" data-title="вспомни меня">
+        <audio id="track6" src="music/vspomni.mp3"></audio>
+        <img src='km.jpg'>
+        <h2>Вспомни Меня</h2>
+        <p>Кай Метов</p>
+        <p class="genre">Pop</p>
+        <button class="download-btn" data-src="music/vspomni.mp3" data-name="Kai_Metov_Vspomni">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track7" data-artist="кай метов" data-title="position 2">
+        <audio id="track7" src="music/position2.mp3"></audio>
+        <img src='km.jpg'>
+        <h2>Position 2</h2>
+        <p>Кай Метов</p>
+        <p class="genre">Pop</p>
+        <button class="download-btn" data-src="music/position2.mp3" data-name="Kai_Metov_Position2">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track8" data-artist="кай метов" data-title="а ты меня не поняла">
+        <audio id="track8" src="music/ne_ponyala.mp3"></audio>
+        <img src='km.jpg'>
+        <h2>А Ты Меня Не Поняла</h2>
+        <p>Кай Метов</p>
+        <p class="genre">Pop</p>
+        <button class="download-btn" data-src="music/ne_ponyala.mp3" data-name="Kai_Metov_Ne_Ponyala">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track9" data-artist="кай метов" data-title="такие вот дела">
+        <audio id="track9" src="music/dela.mp3"></audio>
+        <img src='km.jpg'>
+        <h2>Такие Вот Дела</h2>
+        <p>Кай Метов</p>
+        <p class="genre">Pop</p>
+        <button class="download-btn" data-src="music/dela.mp3" data-name="Kai_Metov_Dela">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track10" data-artist="кай метов" data-title="аморе мио">
+        <audio id="track10" src="music/amore.mp3"></audio>
+        <img src='km.jpg'>
+        <h2>Аморе Мио</h2>
+        <p>Кай Метов</p>
+        <p class="genre">Pop</p>
+        <button class="download-btn" data-src="music/amore.mp3" data-name="Kai_Metov_Amore">Скачать</button>
+    </div>
 
-// Запусти функцию после загрузки страницы
-window.addEventListener('load', applyDynamicColors);
-// Функция для проверки схожести строк (алгоритм Левенштейна)
-function isSimilar(s1, s2) {
-    let longer = s1.length > s2.length ? s1 : s2;
-    let shorter = s1.length > s2.length ? s2 : s1;
-    
-    if (longer.length === 0) return true;
+    <!-- ICE CUBE -->
+    <div class="card" data-track-id="track11" data-artist="ice cube" data-title="check yo self">
+        <audio id="track11" src="music/check_yo_self.mp3"></audio>
+        <img src='ic.jpg'>
+        <h2>Check Yo Self</h2>
+        <p>Ice Cube</p>
+        <p class="genre">Gangsta Rap</p>
+        <button class="download-btn" data-src="music/check_yo_self.mp3" data-name="IceCube_CheckYoSelf">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track12" data-artist="ice cube" data-title="smoke some weed">
+        <audio id="track12" src="music/smoke_weed.mp3"></audio>
+        <img src='ic.jpg'>
+        <h2>Smoke Some Weed</h2>
+        <p>Ice Cube</p>
+        <p class="genre">Gangsta Rap</p>
+        <button class="download-btn" data-src="music/smoke_weed.mp3" data-name="IceCube_SmokeWeed">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track13" data-artist="ice cube" data-title="why we thugs">
+        <audio id="track13" src="music/why_we_thugs.mp3"></audio>
+        <img src='ic.jpg'>
+        <h2>Why We Thugs</h2>
+        <p>Ice Cube</p>
+        <p class="genre">Gangsta Rap</p>
+        <button class="download-btn" data-src="music/why_we_thugs.mp3" data-name="IceCube_WhyWeThugs">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track14" data-artist="ice cube" data-title="you know how we do it">
+        <audio id="track14" src="music/how_we_do_it.mp3"></audio>
+        <img src='ic.jpg'>
+        <h2>You Know How We Do It</h2>
+        <p>Ice Cube</p>
+        <p class="genre">Gangsta Rap</p>
+        <button class="download-btn" data-src="music/how_we_do_it.mp3" data-name="IceCube_HowWeDoIt">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track15" data-artist="ice cube" data-title="really doe">
+        <audio id="track15" src="music/really_doe.mp3"></audio>
+        <img src='ic.jpg'>
+        <h2>Really Doe</h2>
+        <p>Ice Cube</p>
+        <p class="genre">Gangsta Rap</p>
+        <button class="download-btn" data-src="music/really_doe.mp3" data-name="IceCube_ReallyDoe">Скачать</button>
+    </div>
 
-    // Вычисляем процент схожести
-    let editDistance = (function(s1, s2) {
-        let costs = [];
-        for (let i = 0; i <= s1.length; i++) {
-            let lastValue = i;
-            for (let j = 0; j <= s2.length; j++) {
-                if (i == 0) costs[j] = j;
-                else {
-                    if (j > 0) {
-                        let newValue = costs[j - 1];
-                        if (s1.charAt(i - 1) != s2.charAt(j - 1))
-                            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                        costs[j - 1] = lastValue;
-                        lastValue = newValue;
-                    }
-                }
-            }
-            if (i > 0) costs[s2.length] = lastValue;
-        }
-        return costs[s2.length];
-    })(longer, shorter);
+    <!-- НИКОЛАЙ БАСКОВ -->
+    <div class="card" data-track-id="track16" data-artist="николай басков" data-title="шарманка">
+        <audio id="track16" src="music/sharmanka.mp3"></audio>
+        <img src='Baskov.webp'>
+        <h2>Шарманка</h2>
+        <p>Николай Басков</p>
+        <p class="genre">Pop / Classic</p>
+        <button class="download-btn" data-src="music/sharmanka.mp3" data-name="Baskov_Sharmanka">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track17" data-artist="николай басков" data-title="натуральный блондин">
+        <audio id="track17" src="music/naturalniy.mp3"></audio>
+        <img src='Baskov.webp'>
+        <h2>Натуральный блондин</h2>
+        <p>Николай Басков</p>
+        <p class="genre">Pop / Classic</p>
+        <button class="download-btn" data-src="music/naturalniy.mp3" data-name="Baskov_Blondin">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track18" data-artist="николай басков" data-title="твои глаза">
+        <audio id="track18" src="music/tvoi_glaza.mp3"></audio>
+        <img src='Baskov.webp'>
+        <h2>Твои глаза</h2>
+        <p>Николай Басков</p>
+        <p class="genre">Pop / Classic</p>
+        <button class="download-btn" data-src="music/tvoi_glaza.mp3" data-name="Baskov_TvoiGlaza">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track19" data-artist="николай басков" data-title="танго">
+        <audio id="track19" src="music/tango.mp3"></audio>
+        <img src='Baskov.webp'>
+        <h2>Танго</h2>
+        <p>Николай Басков</p>
+        <p class="genre">Pop / Classic</p>
+        <button class="download-btn" data-src="music/tango.mp3" data-name="Baskov_Tango">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track20" data-artist="николай басков" data-title="на небесах">
+        <audio id="track20" src="music/na_nebesah.mp3"></audio>
+        <img src='Baskov.webp'>
+        <h2>На Небесах</h2>
+        <p>Николай Басков</p>
+        <p class="genre">Pop / Classic</p>
+        <button class="download-btn" data-src="music/na_nebesah.mp3" data-name="Baskov_NaNevesah">Скачать</button>
+    </div>
 
-    // Допускаем ошибку, если схожесть более 70%
-    return (longer.length - editDistance) / longer.length > 0.7;
-}
+    <!-- 50 CENT -->
+    <div class="card" data-track-id="track21" data-artist="50 cent" data-title="in da club">
+        <audio id="track21" src="music/indaclub.mp3"></audio>
+        <img src='fifty.webp' alt="50 Cent">
+        <h2>In Da Club</h2>
+        <p>50 Cent</p>
+        <p class="genre">Hip-Hop / G-Unit</p>
+        <button class="download-btn" data-src="music/indaclub.mp3" data-name="50Cent_InDaClub">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track22" data-artist="50 cent" data-title="p.i.m.p.">
+        <audio id="track22" src="music/pimp.mp3"></audio>
+        <img src='fifty.webp'>
+        <h2>P.I.M.P.</h2>
+        <p>50 Cent</p>
+        <p class="genre">Hip-Hop / G-Unit</p>
+        <button class="download-btn" data-src="music/pimp.mp3" data-name="50Cent_PIMP">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track23" data-artist="50 cent" data-title="candy shop">
+        <audio id="track23" src="music/candyshop.mp3"></audio>
+        <img src='fifty.webp'>
+        <h2>Candy Shop</h2>
+        <p>50 Cent</p>
+        <p class="genre">Hip-Hop / G-Unit</p>
+        <button class="download-btn" data-src="music/candyshop.mp3" data-name="50Cent_CandyShop">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track24" data-artist="50 cent" data-title="many men">
+        <audio id="track24" src="music/manymen.mp3"></audio>
+        <img src='fifty.webp'>
+        <h2>Many Men (Wish Death)</h2>
+        <p>50 Cent</p>
+        <p class="genre">Hip-Hop / G-Unit</p>
+        <button class="download-btn" data-src="music/manymen.mp3" data-name="50Cent_ManyMen">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track25" data-artist="50 cent" data-title="21 questions">
+        <audio id="track25" src="music/21questions.mp3"></audio>
+        <img src='fifty.webp'>
+        <h2>21 Questions</h2>
+        <p>50 Cent</p>
+        <p class="genre">Hip-Hop / G-Unit</p>
+        <button class="download-btn" data-src="music/21questions.mp3" data-name="50Cent_21Questions">Скачать</button>
+    </div>
 
-function searchMusic() {
-    let input = document.getElementById('searchInput').value.toLowerCase().trim();
-    let inputNoSpaces = input.replace(/\s+/g, '');
-    let cards = document.querySelectorAll('.card');
+    <!-- SEREBRO - 5 треков (заменён "Не время" на "Мало тебя") -->
+    <div class="card" data-track-id="track26" data-artist="serebro" data-title="я перепутала">
+        <audio id="track26" src="music/ya_pereputala.mp3"></audio>
+        <img src='serebro.jpg' alt="SEREBRO">
+        <h2>Я перепутала</h2>
+        <p>SEREBRO</p>
+        <p class="genre">Pop / Dance</p>
+        <button class="download-btn" data-src="music/ya_pereputala.mp3" data-name="Serebro_Ya_Pereputala">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track27" data-artist="serebro" data-title="мама люба">
+        <audio id="track27" src="music/mama_luba.mp3"></audio>
+        <img src='serebro.jpg'>
+        <h2>Мама Люба</h2>
+        <p>SEREBRO</p>
+        <p class="genre">Pop / Dance</p>
+        <button class="download-btn" data-src="music/mama_luba.mp3" data-name="Serebro_Mama_Luba">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track28" data-artist="serebro" data-title="сладко">
+        <audio id="track28" src="music/sladko.mp3"></audio>
+        <img src='serebro.jpg'>
+        <h2>Сладко</h2>
+        <p>SEREBRO</p>
+        <p class="genre">Pop / Dance</p>
+        <button class="download-btn" data-src="music/sladko.mp3" data-name="Serebro_Sladko">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track29" data-artist="serebro" data-title="ми ми ми">
+        <audio id="track29" src="music/mi_mi_mi.mp3"></audio>
+        <img src='serebro.jpg'>
+        <h2>Ми ми ми</h2>
+        <p>SEREBRO</p>
+        <p class="genre">Pop / Dance</p>
+        <button class="download-btn" data-src="music/mi_mi_mi.mp3" data-name="Serebro_Mi_Mi_Mi">Скачать</button>
+    </div>
+    <div class="card" data-track-id="track30" data-artist="serebro" data-title="мало тебя">
+        <audio id="track30" src="music/malo_tebya.mp3"></audio>
+        <img src='serebro.jpg'>
+        <h2>Мало тебя</h2>
+        <p>SEREBRO</p>
+        <p class="genre">Pop / Dance</p>
+        <button class="download-btn" data-src="music/malo_tebya.mp3" data-name="Serebro_Malo_Tebya">Скачать</button>
+    </div>
+</div>
 
-    if (input === "") {
+<!-- ПЛЕЕР -->
+<div class="player-controls">
+    <div class="controls-buttons">
+        <button class="btn" id="prevBtn">⏮</button>
+        <button class="btn btn-main" id="masterPlayBtn">▶</button>
+        <button class="btn" id="nextBtn">⏭</button>
+    </div>
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="time-info">
+        <span id="currentTime">0:00</span>
+        <span id="duration">0:00</span>
+    </div>
+</div>
+
+<script>
+    function applyDynamicColors() {
+        const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
-            card.style.display = "block";
-            card.style.opacity = "1";
+            const img = card.querySelector('img');
+            if (!img) return;
+            const handleColor = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 1;
+                canvas.height = 1;
+                try {
+                    ctx.drawImage(img, 0, 0, 1, 1);
+                    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+                    const color = `rgb(${r}, ${g}, ${b})`;
+                    const shadow = `rgba(${r}, ${g}, ${b}, 0.45)`;
+                    card.style.setProperty('--accent-color', color);
+                    card.style.setProperty('--hover-shadow', shadow);
+                } catch(e) {}
+            };
+            if (img.complete) handleColor();
+            else img.onload = handleColor;
         });
-        return;
     }
 
-    cards.forEach(card => {
-        let title = card.querySelector('h2').innerText.toLowerCase();
-        let artist = card.querySelector('p').innerText.toLowerCase();
-        let titleNoSpaces = title.replace(/\s+/g, '');
-        let artistNoSpaces = artist.replace(/\s+/g, '');
+    window.searchMusic = function() {
+        let input = document.getElementById('searchInput').value.toLowerCase().trim();
+        let cards = document.querySelectorAll('.card');
+        if (input === "") {
+            cards.forEach(card => card.classList.remove('hidden-for-search'));
+            return;
+        }
+        cards.forEach(card => {
+            let title = card.querySelector('h2')?.innerText.toLowerCase() || '';
+            let artist = card.querySelector('p')?.innerText.toLowerCase() || '';
+            let match = title.includes(input) || artist.includes(input);
+            if (match) card.classList.remove('hidden-for-search');
+            else card.classList.add('hidden-for-search');
+        });
+    };
 
-        // 1. Проверяем прямое вхождение (как раньше)
-        // 2. Проверяем вхождение без пробелов
-        // 3. Проверяем схожесть (на опечатки)
-        let match = title.includes(input) || artist.includes(input) || 
-                    titleNoSpaces.includes(inputNoSpaces) || artistNoSpaces.includes(inputNoSpaces) ||
-                    isSimilar(input, title) || isSimilar(input, artist);
+    const allAudios = Array.from(document.querySelectorAll('.card audio'));
+    const allCards = document.querySelectorAll('.card');
+    let currentTrackIndex = 0;
+    let isPlaying = false;
 
-        if (match) {
-            card.style.display = "block";
-            setTimeout(() => { card.style.opacity = "1"; }, 10);
-        } else {
-            card.style.opacity = "0";
-            setTimeout(() => { 
-                if(card.style.opacity === "0") card.style.display = "none"; 
-            }, 400);
+    const masterPlayBtn = document.getElementById('masterPlayBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+    const currentTimeSpan = document.getElementById('currentTime');
+    const durationSpan = document.getElementById('duration');
+
+    function formatTime(sec) {
+        if (isNaN(sec)) return "0:00";
+        let minutes = Math.floor(sec / 60);
+        let seconds = Math.floor(sec % 60);
+        return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    }
+
+    function updateProgressUI() {
+        const audio = allAudios[currentTrackIndex];
+        if (!audio || !audio.duration || isNaN(audio.duration)) return;
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${percent}%`;
+        currentTimeSpan.innerText = formatTime(audio.currentTime);
+        durationSpan.innerText = formatTime(audio.duration);
+    }
+
+    function setPlayingVisuals(index) {
+        allCards.forEach((card, i) => {
+            if (i === index && isPlaying) card.classList.add('playing');
+            else card.classList.remove('playing');
+        });
+    }
+
+    function resumeTrack() {
+        const audio = allAudios[currentTrackIndex];
+        if (!audio) return;
+        audio.play().catch(e => console.warn);
+        isPlaying = true;
+        masterPlayBtn.innerText = "⏸";
+        setPlayingVisuals(currentTrackIndex);
+        audio.ontimeupdate = () => updateProgressUI();
+        audio.onended = () => nextTrack();
+        updateProgressUI();
+    }
+
+    function pauseTrack() {
+        allAudios[currentTrackIndex]?.pause();
+        isPlaying = false;
+        masterPlayBtn.innerText = "▶";
+        allCards[currentTrackIndex]?.classList.remove('playing');
+    }
+
+    function masterToggle() {
+        if (!allAudios.length) return;
+        if (isPlaying) pauseTrack();
+        else resumeTrack();
+    }
+
+    function playNewTrack(index) {
+        if (currentTrackIndex === index && !allAudios[currentTrackIndex]?.paused) return;
+        if (allAudios[currentTrackIndex]) {
+            allAudios[currentTrackIndex].pause();
+            allAudios[currentTrackIndex].currentTime = 0;
+        }
+        currentTrackIndex = index;
+        resumeTrack();
+    }
+
+    function nextTrack() {
+        if (allAudios.length === 0) return;
+        playNewTrack((currentTrackIndex + 1) % allAudios.length);
+    }
+
+    function prevTrack() {
+        if (allAudios.length === 0) return;
+        playNewTrack((currentTrackIndex - 1 + allAudios.length) % allAudios.length);
+    }
+
+    progressContainer.onclick = function(e) {
+        const rect = progressContainer.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const width = rect.width;
+        const audio = allAudios[currentTrackIndex];
+        if (audio && audio.duration) {
+            audio.currentTime = (clickX / width) * audio.duration;
+            updateProgressUI();
+        }
+    };
+
+    allCards.forEach((card, idx) => {
+        const audioEl = card.querySelector('audio');
+        if (audioEl) {
+            card.onclick = (e) => {
+                if (e.target.classList && e.target.classList.contains('download-btn')) return;
+                playNewTrack(idx);
+            };
         }
     });
-}      let currentTrackIndex = 0;
-        let isPlaying = false;
-        const allAudios = document.querySelectorAll('audio');
-        const allCards = document.querySelectorAll('.card');
-        const masterPlay = document.getElementById('masterPlay');
-        const progressBar = document.getElementById('progressBar');
-        const progressContainer = document.getElementById('progressContainer');
 
-        function togglePlay(id, element) {
-            const audio = document.getElementById(id);
-            const index = Array.from(allAudios).indexOf(audio);
+    document.getElementById('prevBtn').onclick = prevTrack;
+    document.getElementById('nextBtn').onclick = nextTrack;
+    masterPlayBtn.onclick = masterToggle;
 
-            if (currentTrackIndex === index) {
-                if (!audio.paused) pauseTrack();
-                else resumeTrack();
-            } else {
-                playNewTrack(index);
-            }
-        }
+    if (allAudios.length) {
+        allAudios.forEach((audio, i) => {
+            audio.addEventListener('loadedmetadata', () => {
+                if (i === currentTrackIndex) updateProgressUI();
+            });
+        });
+        updateProgressUI();
+    }
 
-        function playNewTrack(index) {
-            allAudios[currentTrackIndex].pause();
-            allAudios[currentTrackIndex].currentTime = 0; 
-            allCards[currentTrackIndex].classList.remove('playing');
-            allCards[currentTrackIndex].style.opacity = "1";
+    function setupDownloadButtons() {
+        const btns = document.querySelectorAll('.download-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const fileUrl = btn.getAttribute('data-src');
+                const fileName = btn.getAttribute('data-name') || 'track';
+                if (!fileUrl) return;
+                try {
+                    const response = await fetch(fileUrl);
+                    if (!response.ok) throw new Error('Файл не найден');
+                    const blob = await response.blob();
+                    const link = document.createElement('a');
+                    const url = URL.createObjectURL(blob);
+                    link.href = url;
+                    link.download = `${fileName}.mp3`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                } catch (err) {
+                    console.warn(err);
+                    const fallbackLink = document.createElement('a');
+                    fallbackLink.href = fileUrl;
+                    fallbackLink.download = `${fileName}.mp3`;
+                    fallbackLink.target = '_blank';
+                    document.body.appendChild(fallbackLink);
+                    fallbackLink.click();
+                    document.body.removeChild(fallbackLink);
+                    setTimeout(() => {
+                        alert(`Не удалось загрузить ${fileName}. Файл: ${fileUrl}`);
+                    }, 100);
+                }
+            });
+        });
+    }
 
-            currentTrackIndex = index;
-            resumeTrack();
-        }
-
-        function resumeTrack() {
-            const audio = allAudios[currentTrackIndex];
-            audio.play();
-            isPlaying = true;
-            masterPlay.innerText = "⏸";
-            allCards[currentTrackIndex].classList.add('playing');
-            allCards[currentTrackIndex].style.opacity = "1";
-            audio.ontimeupdate = updateProgress;
-        }
-
-        function pauseTrack() {
-            allAudios[currentTrackIndex].pause();
-            isPlaying = false;
-            masterPlay.innerText = "▶";
-            allCards[currentTrackIndex].style.opacity = "0.7"; 
-        }
-
-        function masterToggle() {
-            if (isPlaying) pauseTrack();
-            else resumeTrack();
-        }
-
-        function nextTrack() {
-            playNewTrack((currentTrackIndex + 1) % allAudios.length);
-        }
-
-        function prevTrack() {
-            playNewTrack((currentTrackIndex - 1 + allAudios.length) % allAudios.length);
-        }
-
-        function updateProgress(e) {
-            const { duration, currentTime } = e.srcElement;
-            if (isNaN(duration)) return;
-            const percent = (currentTime / duration) * 100;
-            progressBar.style.width = `${percent}%`;
-            
-            document.getElementById('currentTime').innerText = formatTime(currentTime);
-            document.getElementById('duration').innerText = formatTime(duration);
-            
-            if (currentTime >= duration) nextTrack();
-        }
-
-        function formatTime(time) {
-            let min = Math.floor(time / 60);
-            let sec = Math.floor(time % 60);
-            return `${min}:${sec < 10 ? '0' + sec : sec}`;
-        }
-
-        progressContainer.onclick = function(e) {
-            const width = this.clientWidth;
-            const clickX = e.offsetX;
-            const duration = allAudios[currentTrackIndex].duration;
-            allAudios[currentTrackIndex].currentTime = (clickX / width) * duration;
-        };
-    </script>
+    window.addEventListener('load', () => {
+        applyDynamicColors();
+        setupDownloadButtons();
+        if (allAudios.length) updateProgressUI();
+    });
+</script>
 </body>
 </html>
