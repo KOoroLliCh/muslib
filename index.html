@@ -2,10 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Music Player | SEREBRO Collection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <title>Music Player | SEREBRO + 50 Cent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -31,7 +30,6 @@
             font-weight: 400;
             margin-bottom: 40px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-            word-break: keep-all;
         }
 
         .search-box {
@@ -48,11 +46,9 @@
             border: 1px solid #222;
             border-radius: 60px;
             color: #fff;
-            font-family: 'Inter', sans-serif;
             font-size: 1rem;
             outline: none;
             transition: 0.3s;
-            backdrop-filter: blur(4px);
         }
 
         #searchInput:focus {
@@ -60,55 +56,7 @@
             box-shadow: 0 0 18px rgba(255, 255, 255, 0.15);
         }
 
-=======
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player · Цвета работают</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        /* === Все стили оставлены без изменений === */
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at 50% 30%, #0c0c0c 0%, #050505 100%);
-            background-attachment: fixed;
-            margin: 0;
-            padding: 40px 20px 160px;
-            color: #fff;
-            min-height: 100vh;
-        }
-        h1 {
-            text-align: center;
-            letter-spacing: 15px;
-            text-transform: uppercase;
-            font-size: 2rem;
-            font-weight: 300;
-            margin-bottom: 40px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        }
-        .search-box {
-            max-width: 400px;
-            margin: 0 auto 50px;
-            text-align: center;
-        }
-        #searchInput {
-            width: 100%;
-            padding: 12px 20px;
-            background: #0a0a0a;
-            border: 1px solid #222;
-            border-radius: 30px;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-        }
-        #searchInput:focus {
-            border-color: #fff;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-        }
->>>>>>> ff1cb3d0acd78b602120ff927be36374065f5c72
+        /* Сетка — flex с фиксированной шириной карточки, перенос */
         .grid-container {
             display: flex;
             flex-wrap: wrap;
@@ -117,20 +65,19 @@
             max-width: 1400px;
             margin: 0 auto;
         }
+
         .card {
             background-color: #0a0a0a;
-<<<<<<< HEAD
             border: 1px solid #1e1e1e;
             border-radius: 28px;
             padding: 18px 16px 20px;
-            width: 230px;
+            width: 230px;            /* фиксированная ширина → 5 карточек в ряд на 1200px+ */
             text-align: center;
             transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             cursor: pointer;
             box-sizing: border-box;
             --accent-color: #ffffff;
             --hover-shadow: rgba(255, 255, 255, 0.1);
-            position: relative;
             display: flex;
             flex-direction: column;
         }
@@ -140,69 +87,14 @@
             background-color: #111;
             transform: translateY(-8px);
             box-shadow: 0 20px 32px var(--hover-shadow);
-=======
-            border: 1px solid #1a1a1a;
-            border-radius: 20px;
-            padding: 20px;
-            width: 210px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            --accent-color: #fff;
-            --hover-shadow: rgba(255, 255, 255, 0.1);
         }
-        .card.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        .download-btn {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background: rgba(20, 20, 20, 0.8);
-            backdrop-filter: blur(4px);
-            border: 1px solid #333;
-            color: #ccc;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.2s;
-            opacity: 0;
-            transform: scale(0.8);
-            pointer-events: none;
-            z-index: 5;
-        }
-        .card:hover .download-btn {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-        .download-btn:hover {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-        .card .genre {
-            margin-bottom: 30px;
->>>>>>> ff1cb3d0acd78b602120ff927be36374065f5c72
-        }
+
         .card img {
             border-radius: 18px;
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
             filter: grayscale(100%);
-<<<<<<< HEAD
             transition: all 0.4s ease;
             margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -212,59 +104,14 @@
             filter: grayscale(0%);
             transform: scale(1.02);
             box-shadow: 0 8px 22px var(--hover-shadow);
-=======
-            transition: filter 0.5s ease, transform 0.4s ease, box-shadow 0.4s ease;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .card h2 {
-            font-size: 1rem;
-            margin: 10px 0 5px;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
-        }
-        .card p {
-            color: #666;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 5px 0;
-        }
-        .genre {
-            color: #444 !important;
-            font-size: 10px !important;
-            border-top: 1px solid #1a1a1a;
-            padding-top: 8px;
-            margin-top: 12px !important;
-            letter-spacing: 1px;
-        }
-        .card:hover {
-            border-color: var(--accent-color);
-            background-color: #111;
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px var(--hover-shadow);
-        }
-        .card:hover img,
+
         .card.playing img {
-            filter: grayscale(0%);
-            box-shadow: 0 0 20px var(--hover-shadow);
->>>>>>> ff1cb3d0acd78b602120ff927be36374065f5c72
-        }
-        .card.playing img {
-<<<<<<< HEAD
             animation: softPulse 2.2s infinite ease;
             box-shadow: 0 0 22px rgba(255, 255, 255, 0.25);
         }
 
         @keyframes softPulse {
-=======
-            animation: pulse 2s infinite ease-in-out;
-        }
-        @keyframes pulse {
->>>>>>> ff1cb3d0acd78b602120ff927be36374065f5c72
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.03); }
         }
@@ -276,7 +123,6 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            letter-spacing: -0.2px;
         }
 
         .card p {
@@ -295,9 +141,9 @@
             padding-top: 10px;
             margin-top: 12px !important;
             letter-spacing: 0.5px;
-            font-weight: 400;
         }
 
+        /* кнопка скачивания без смайликов */
         .download-btn {
             background: rgba(20, 20, 20, 0.9);
             border: 1px solid #2c2c2c;
@@ -316,7 +162,6 @@
             justify-content: center;
             gap: 6px;
             backdrop-filter: blur(4px);
-            letter-spacing: 0.5px;
         }
 
         .download-btn:hover {
@@ -324,16 +169,9 @@
             color: #000;
             border-color: var(--accent-color);
             transform: scale(0.98);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
-        .download-btn:active {
-            transform: scale(0.96);
-        }
-<<<<<<< HEAD
-
-=======
->>>>>>> ff1cb3d0acd78b602120ff927be36374065f5c72
+        /* плеер без кружков */
         .player-controls {
             position: fixed;
             bottom: 0;
@@ -347,14 +185,15 @@
             flex-direction: column;
             align-items: center;
             z-index: 1100;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
+
         .controls-buttons {
             display: flex;
             align-items: center;
             gap: 32px;
             margin-bottom: 16px;
         }
+
         .btn {
             background: transparent;
             border: none;
@@ -363,24 +202,16 @@
             cursor: pointer;
             transition: 0.2s;
             padding: 0;
-            margin: 0;
-            width: auto;
-            height: auto;
             line-height: 1;
-            font-weight: 400;
         }
-<<<<<<< HEAD
 
         .btn:hover {
             color: white;
             transform: scale(1.08);
-            background: transparent;
         }
 
         .btn-main {
             font-size: 2.8rem;
-            background: transparent;
-            font-weight: 500;
         }
 
         .progress-container {
@@ -400,7 +231,6 @@
             height: 100%;
             background: linear-gradient(90deg, #fff, #ccc);
             border-radius: 20px;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
             transition: width 0.08s linear;
         }
 
@@ -413,19 +243,18 @@
             display: flex;
             justify-content: space-between;
             margin-top: 8px;
-            letter-spacing: 0.5px;
         }
 
         .card.hidden-for-search {
             display: none !important;
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 700px) {
             .grid-container {
                 gap: 16px;
             }
             .card {
-                width: calc(50% - 12px);
+                width: calc(50% - 12px); /* 2 колонки на планшетах/телефонах */
                 padding: 14px;
             }
             .card h2 {
@@ -449,68 +278,21 @@
 
         @media (min-width: 1100px) {
             .card {
-                width: 230px;
-=======
-        .btn:hover { color: #aaa; transform: scale(1.1); }
-        .btn-main { font-size: 2.5rem; }
-        .btn-download { font-size: 1.8rem; margin-left: 10px; }
-        .progress-container {
-            width: 90%;
-            max-width: 800px;
-            height: 8px;
-            background: #222;
-            border-radius: 10px;
-            cursor: pointer;
-            position: relative;
-            margin: 5px 0;
-            overflow: hidden;
-        }
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-            transition: width 0.1s linear;
-        }
-        .time-info {
-            font-size: 12px;
-            font-family: monospace;
-            color: #888;
-            width: 90%;
-            max-width: 800px;
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-        }
-        @media (max-width: 600px) {
-            .grid-container { gap: 15px; }
-            .card {
-                width: calc(50% - 7.5px);
-                padding: 12px;
-            }
-            .card h2 { font-size: 0.9rem; }
-            .download-btn {
-                opacity: 1;
-                transform: scale(1);
-                pointer-events: auto;
-                background: rgba(20,20,20,0.9);
->>>>>>> ff1cb3d0acd78b602120ff927be36374065f5c72
+                width: 230px; /* 5 карточек в ряд */
             }
         }
     </style>
 </head>
 <body>
 
-<<<<<<< HEAD
 <h1>MUSIC LIBRARY</h1>
 <div class="search-box">
     <input type="text" id="searchInput" placeholder="Поиск артиста или песни..." onkeyup="searchMusic()">
 </div>
 
 <div class="grid-container" id="gridContainer">
-    <!-- KANYE WEST -->
-    <div class="card" data-track-id="track1" data-artist="kanye west" data-title="runaway">
+    <!-- KANYE WEST (5) -->
+    <div class="card" data-track-id="track1">
         <audio id="track1" src="music/runaway.mp3"></audio>
         <img src='kw2.png' alt="cover">
         <h2>Runaway</h2>
@@ -518,7 +300,7 @@
         <p class="genre">Hip-Hop / Rap</p>
         <button class="download-btn" data-src="music/runaway.mp3" data-name="Kanye_West_Runaway">Скачать</button>
     </div>
-    <div class="card" data-track-id="track2" data-artist="kanye west" data-title="i wonder">
+    <div class="card" data-track-id="track2">
         <audio id="track2" src="music/iwonder.mp3"></audio>
         <img src='kw2.png'>
         <h2>I Wonder</h2>
@@ -526,7 +308,7 @@
         <p class="genre">Hip-Hop / Rap</p>
         <button class="download-btn" data-src="music/iwonder.mp3" data-name="Kanye_West_I_Wonder">Скачать</button>
     </div>
-    <div class="card" data-track-id="track3" data-artist="kanye west" data-title="hurricane">
+    <div class="card" data-track-id="track3">
         <audio id="track3" src="music/hurricane.mp3"></audio>
         <img src='kw2.png'>
         <h2>Hurricane</h2>
@@ -534,7 +316,7 @@
         <p class="genre">Hip-Hop / Rap</p>
         <button class="download-btn" data-src="music/hurricane.mp3" data-name="Kanye_West_Hurricane">Скачать</button>
     </div>
-    <div class="card" data-track-id="track4" data-artist="kanye west" data-title="heartless">
+    <div class="card" data-track-id="track4">
         <audio id="track4" src="music/heartless.mp3"></audio>
         <img src='kw2.png'>
         <h2>Heartless</h2>
@@ -542,7 +324,7 @@
         <p class="genre">Hip-Hop / Rap</p>
         <button class="download-btn" data-src="music/heartless.mp3" data-name="Kanye_West_Heartless">Скачать</button>
     </div>
-    <div class="card" data-track-id="track5" data-artist="kanye west" data-title="niggas in paris">
+    <div class="card" data-track-id="track5">
         <audio id="track5" src="music/paris.mp3"></audio>
         <img src='kw2.png'>
         <h2>Niggas In Paris</h2>
@@ -551,8 +333,8 @@
         <button class="download-btn" data-src="music/paris.mp3" data-name="Kanye_West_Paris">Скачать</button>
     </div>
 
-    <!-- КАЙ МЕТОВ -->
-    <div class="card" data-track-id="track6" data-artist="кай метов" data-title="вспомни меня">
+    <!-- КАЙ МЕТОВ (5) -->
+    <div class="card" data-track-id="track6">
         <audio id="track6" src="music/vspomni.mp3"></audio>
         <img src='km.jpg'>
         <h2>Вспомни Меня</h2>
@@ -560,7 +342,7 @@
         <p class="genre">Pop</p>
         <button class="download-btn" data-src="music/vspomni.mp3" data-name="Kai_Metov_Vspomni">Скачать</button>
     </div>
-    <div class="card" data-track-id="track7" data-artist="кай метов" data-title="position 2">
+    <div class="card" data-track-id="track7">
         <audio id="track7" src="music/position2.mp3"></audio>
         <img src='km.jpg'>
         <h2>Position 2</h2>
@@ -568,7 +350,7 @@
         <p class="genre">Pop</p>
         <button class="download-btn" data-src="music/position2.mp3" data-name="Kai_Metov_Position2">Скачать</button>
     </div>
-    <div class="card" data-track-id="track8" data-artist="кай метов" data-title="а ты меня не поняла">
+    <div class="card" data-track-id="track8">
         <audio id="track8" src="music/ne_ponyala.mp3"></audio>
         <img src='km.jpg'>
         <h2>А Ты Меня Не Поняла</h2>
@@ -576,7 +358,7 @@
         <p class="genre">Pop</p>
         <button class="download-btn" data-src="music/ne_ponyala.mp3" data-name="Kai_Metov_Ne_Ponyala">Скачать</button>
     </div>
-    <div class="card" data-track-id="track9" data-artist="кай метов" data-title="такие вот дела">
+    <div class="card" data-track-id="track9">
         <audio id="track9" src="music/dela.mp3"></audio>
         <img src='km.jpg'>
         <h2>Такие Вот Дела</h2>
@@ -584,7 +366,7 @@
         <p class="genre">Pop</p>
         <button class="download-btn" data-src="music/dela.mp3" data-name="Kai_Metov_Dela">Скачать</button>
     </div>
-    <div class="card" data-track-id="track10" data-artist="кай метов" data-title="аморе мио">
+    <div class="card" data-track-id="track10">
         <audio id="track10" src="music/amore.mp3"></audio>
         <img src='km.jpg'>
         <h2>Аморе Мио</h2>
@@ -593,8 +375,8 @@
         <button class="download-btn" data-src="music/amore.mp3" data-name="Kai_Metov_Amore">Скачать</button>
     </div>
 
-    <!-- ICE CUBE -->
-    <div class="card" data-track-id="track11" data-artist="ice cube" data-title="check yo self">
+    <!-- ICE CUBE (5) -->
+    <div class="card" data-track-id="track11">
         <audio id="track11" src="music/check_yo_self.mp3"></audio>
         <img src='ic.jpg'>
         <h2>Check Yo Self</h2>
@@ -602,7 +384,7 @@
         <p class="genre">Gangsta Rap</p>
         <button class="download-btn" data-src="music/check_yo_self.mp3" data-name="IceCube_CheckYoSelf">Скачать</button>
     </div>
-    <div class="card" data-track-id="track12" data-artist="ice cube" data-title="smoke some weed">
+    <div class="card" data-track-id="track12">
         <audio id="track12" src="music/smoke_weed.mp3"></audio>
         <img src='ic.jpg'>
         <h2>Smoke Some Weed</h2>
@@ -610,7 +392,7 @@
         <p class="genre">Gangsta Rap</p>
         <button class="download-btn" data-src="music/smoke_weed.mp3" data-name="IceCube_SmokeWeed">Скачать</button>
     </div>
-    <div class="card" data-track-id="track13" data-artist="ice cube" data-title="why we thugs">
+    <div class="card" data-track-id="track13">
         <audio id="track13" src="music/why_we_thugs.mp3"></audio>
         <img src='ic.jpg'>
         <h2>Why We Thugs</h2>
@@ -618,7 +400,7 @@
         <p class="genre">Gangsta Rap</p>
         <button class="download-btn" data-src="music/why_we_thugs.mp3" data-name="IceCube_WhyWeThugs">Скачать</button>
     </div>
-    <div class="card" data-track-id="track14" data-artist="ice cube" data-title="you know how we do it">
+    <div class="card" data-track-id="track14">
         <audio id="track14" src="music/how_we_do_it.mp3"></audio>
         <img src='ic.jpg'>
         <h2>You Know How We Do It</h2>
@@ -626,7 +408,7 @@
         <p class="genre">Gangsta Rap</p>
         <button class="download-btn" data-src="music/how_we_do_it.mp3" data-name="IceCube_HowWeDoIt">Скачать</button>
     </div>
-    <div class="card" data-track-id="track15" data-artist="ice cube" data-title="really doe">
+    <div class="card" data-track-id="track15">
         <audio id="track15" src="music/really_doe.mp3"></audio>
         <img src='ic.jpg'>
         <h2>Really Doe</h2>
@@ -635,8 +417,8 @@
         <button class="download-btn" data-src="music/really_doe.mp3" data-name="IceCube_ReallyDoe">Скачать</button>
     </div>
 
-    <!-- НИКОЛАЙ БАСКОВ -->
-    <div class="card" data-track-id="track16" data-artist="николай басков" data-title="шарманка">
+    <!-- НИКОЛАЙ БАСКОВ (5) -->
+    <div class="card" data-track-id="track16">
         <audio id="track16" src="music/sharmanka.mp3"></audio>
         <img src='Baskov.webp'>
         <h2>Шарманка</h2>
@@ -644,7 +426,7 @@
         <p class="genre">Pop / Classic</p>
         <button class="download-btn" data-src="music/sharmanka.mp3" data-name="Baskov_Sharmanka">Скачать</button>
     </div>
-    <div class="card" data-track-id="track17" data-artist="николай басков" data-title="натуральный блондин">
+    <div class="card" data-track-id="track17">
         <audio id="track17" src="music/naturalniy.mp3"></audio>
         <img src='Baskov.webp'>
         <h2>Натуральный блондин</h2>
@@ -652,7 +434,7 @@
         <p class="genre">Pop / Classic</p>
         <button class="download-btn" data-src="music/naturalniy.mp3" data-name="Baskov_Blondin">Скачать</button>
     </div>
-    <div class="card" data-track-id="track18" data-artist="николай басков" data-title="твои глаза">
+    <div class="card" data-track-id="track18">
         <audio id="track18" src="music/tvoi_glaza.mp3"></audio>
         <img src='Baskov.webp'>
         <h2>Твои глаза</h2>
@@ -660,7 +442,7 @@
         <p class="genre">Pop / Classic</p>
         <button class="download-btn" data-src="music/tvoi_glaza.mp3" data-name="Baskov_TvoiGlaza">Скачать</button>
     </div>
-    <div class="card" data-track-id="track19" data-artist="николай басков" data-title="танго">
+    <div class="card" data-track-id="track19">
         <audio id="track19" src="music/tango.mp3"></audio>
         <img src='Baskov.webp'>
         <h2>Танго</h2>
@@ -668,7 +450,7 @@
         <p class="genre">Pop / Classic</p>
         <button class="download-btn" data-src="music/tango.mp3" data-name="Baskov_Tango">Скачать</button>
     </div>
-    <div class="card" data-track-id="track20" data-artist="николай басков" data-title="на небесах">
+    <div class="card" data-track-id="track20">
         <audio id="track20" src="music/na_nebesah.mp3"></audio>
         <img src='Baskov.webp'>
         <h2>На Небесах</h2>
@@ -677,8 +459,8 @@
         <button class="download-btn" data-src="music/na_nebesah.mp3" data-name="Baskov_NaNevesah">Скачать</button>
     </div>
 
-    <!-- 50 CENT -->
-    <div class="card" data-track-id="track21" data-artist="50 cent" data-title="in da club">
+    <!-- 50 CENT (5) -->
+    <div class="card" data-track-id="track21">
         <audio id="track21" src="music/indaclub.mp3"></audio>
         <img src='fifty.webp' alt="50 Cent">
         <h2>In Da Club</h2>
@@ -686,7 +468,7 @@
         <p class="genre">Hip-Hop / G-Unit</p>
         <button class="download-btn" data-src="music/indaclub.mp3" data-name="50Cent_InDaClub">Скачать</button>
     </div>
-    <div class="card" data-track-id="track22" data-artist="50 cent" data-title="p.i.m.p.">
+    <div class="card" data-track-id="track22">
         <audio id="track22" src="music/pimp.mp3"></audio>
         <img src='fifty.webp'>
         <h2>P.I.M.P.</h2>
@@ -694,7 +476,7 @@
         <p class="genre">Hip-Hop / G-Unit</p>
         <button class="download-btn" data-src="music/pimp.mp3" data-name="50Cent_PIMP">Скачать</button>
     </div>
-    <div class="card" data-track-id="track23" data-artist="50 cent" data-title="candy shop">
+    <div class="card" data-track-id="track23">
         <audio id="track23" src="music/candyshop.mp3"></audio>
         <img src='fifty.webp'>
         <h2>Candy Shop</h2>
@@ -702,7 +484,7 @@
         <p class="genre">Hip-Hop / G-Unit</p>
         <button class="download-btn" data-src="music/candyshop.mp3" data-name="50Cent_CandyShop">Скачать</button>
     </div>
-    <div class="card" data-track-id="track24" data-artist="50 cent" data-title="many men">
+    <div class="card" data-track-id="track24">
         <audio id="track24" src="music/manymen.mp3"></audio>
         <img src='fifty.webp'>
         <h2>Many Men (Wish Death)</h2>
@@ -710,7 +492,7 @@
         <p class="genre">Hip-Hop / G-Unit</p>
         <button class="download-btn" data-src="music/manymen.mp3" data-name="50Cent_ManyMen">Скачать</button>
     </div>
-    <div class="card" data-track-id="track25" data-artist="50 cent" data-title="21 questions">
+    <div class="card" data-track-id="track25">
         <audio id="track25" src="music/21questions.mp3"></audio>
         <img src='fifty.webp'>
         <h2>21 Questions</h2>
@@ -719,42 +501,42 @@
         <button class="download-btn" data-src="music/21questions.mp3" data-name="50Cent_21Questions">Скачать</button>
     </div>
 
-    <!-- SEREBRO - 5 треков (заменён "Не время" на "Мало тебя") -->
-    <div class="card" data-track-id="track26" data-artist="serebro" data-title="я перепутала">
+    <!-- SEREBRO (5 треков: Я перепутала, Мама Люба, Сладко, Ми ми ми, Мало тебя) -->
+    <div class="card" data-track-id="track26">
         <audio id="track26" src="music/ya_pereputala.mp3"></audio>
-        <img src='serebro.jpg' alt="SEREBRO">
+        <img src='serebro.webp' alt="SEREBRO">
         <h2>Я перепутала</h2>
         <p>SEREBRO</p>
         <p class="genre">Pop / Dance</p>
         <button class="download-btn" data-src="music/ya_pereputala.mp3" data-name="Serebro_Ya_Pereputala">Скачать</button>
     </div>
-    <div class="card" data-track-id="track27" data-artist="serebro" data-title="мама люба">
+    <div class="card" data-track-id="track27">
         <audio id="track27" src="music/mama_luba.mp3"></audio>
-        <img src='serebro.jpg'>
+        <img src='serebro.webp'>
         <h2>Мама Люба</h2>
         <p>SEREBRO</p>
         <p class="genre">Pop / Dance</p>
         <button class="download-btn" data-src="music/mama_luba.mp3" data-name="Serebro_Mama_Luba">Скачать</button>
     </div>
-    <div class="card" data-track-id="track28" data-artist="serebro" data-title="сладко">
+    <div class="card" data-track-id="track28">
         <audio id="track28" src="music/sladko.mp3"></audio>
-        <img src='serebro.jpg'>
+        <img src='serebro.webp'>
         <h2>Сладко</h2>
         <p>SEREBRO</p>
         <p class="genre">Pop / Dance</p>
         <button class="download-btn" data-src="music/sladko.mp3" data-name="Serebro_Sladko">Скачать</button>
     </div>
-    <div class="card" data-track-id="track29" data-artist="serebro" data-title="ми ми ми">
+    <div class="card" data-track-id="track29">
         <audio id="track29" src="music/mi_mi_mi.mp3"></audio>
-        <img src='serebro.jpg'>
+        <img src='serebro.webp'>
         <h2>Ми ми ми</h2>
         <p>SEREBRO</p>
         <p class="genre">Pop / Dance</p>
         <button class="download-btn" data-src="music/mi_mi_mi.mp3" data-name="Serebro_Mi_Mi_Mi">Скачать</button>
     </div>
-    <div class="card" data-track-id="track30" data-artist="serebro" data-title="мало тебя">
+    <div class="card" data-track-id="track30">
         <audio id="track30" src="music/malo_tebya.mp3"></audio>
-        <img src='serebro.jpg'>
+        <img src='serebro.webp'>
         <h2>Мало тебя</h2>
         <p>SEREBRO</p>
         <p class="genre">Pop / Dance</p>
@@ -779,6 +561,7 @@
 </div>
 
 <script>
+    // динамические цвета обложек
     function applyDynamicColors() {
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
@@ -792,10 +575,8 @@
                 try {
                     ctx.drawImage(img, 0, 0, 1, 1);
                     const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-                    const color = `rgb(${r}, ${g}, ${b})`;
-                    const shadow = `rgba(${r}, ${g}, ${b}, 0.45)`;
-                    card.style.setProperty('--accent-color', color);
-                    card.style.setProperty('--hover-shadow', shadow);
+                    card.style.setProperty('--accent-color', `rgb(${r}, ${g}, ${b})`);
+                    card.style.setProperty('--hover-shadow', `rgba(${r}, ${g}, ${b}, 0.45)`);
                 } catch(e) {}
             };
             if (img.complete) handleColor();
@@ -803,6 +584,7 @@
         });
     }
 
+    // поиск (без эмодзи)
     window.searchMusic = function() {
         let input = document.getElementById('searchInput').value.toLowerCase().trim();
         let cards = document.querySelectorAll('.card');
@@ -819,6 +601,7 @@
         });
     };
 
+    // ---------- ПЛЕЕР ----------
     const allAudios = Array.from(document.querySelectorAll('.card audio'));
     const allCards = document.querySelectorAll('.card');
     let currentTrackIndex = 0;
@@ -910,13 +693,10 @@
     };
 
     allCards.forEach((card, idx) => {
-        const audioEl = card.querySelector('audio');
-        if (audioEl) {
-            card.onclick = (e) => {
-                if (e.target.classList && e.target.classList.contains('download-btn')) return;
-                playNewTrack(idx);
-            };
-        }
+        card.onclick = (e) => {
+            if (e.target.classList && e.target.classList.contains('download-btn')) return;
+            playNewTrack(idx);
+        };
     });
 
     document.getElementById('prevBtn').onclick = prevTrack;
@@ -932,6 +712,7 @@
         updateProgressUI();
     }
 
+    // скачивание
     function setupDownloadButtons() {
         const btns = document.querySelectorAll('.download-btn');
         btns.forEach(btn => {
@@ -942,7 +723,7 @@
                 if (!fileUrl) return;
                 try {
                     const response = await fetch(fileUrl);
-                    if (!response.ok) throw new Error('Файл не найден');
+                    if (!response.ok) throw new Error();
                     const blob = await response.blob();
                     const link = document.createElement('a');
                     const url = URL.createObjectURL(blob);
@@ -952,18 +733,14 @@
                     link.click();
                     document.body.removeChild(link);
                     URL.revokeObjectURL(url);
-                } catch (err) {
-                    console.warn(err);
-                    const fallbackLink = document.createElement('a');
-                    fallbackLink.href = fileUrl;
-                    fallbackLink.download = `${fileName}.mp3`;
-                    fallbackLink.target = '_blank';
-                    document.body.appendChild(fallbackLink);
-                    fallbackLink.click();
-                    document.body.removeChild(fallbackLink);
-                    setTimeout(() => {
-                        alert(`Не удалось загрузить ${fileName}. Файл: ${fileUrl}`);
-                    }, 100);
+                } catch {
+                    const fallback = document.createElement('a');
+                    fallback.href = fileUrl;
+                    fallback.download = `${fileName}.mp3`;
+                    fallback.target = '_blank';
+                    document.body.appendChild(fallback);
+                    fallback.click();
+                    document.body.removeChild(fallback);
                 }
             });
         });
@@ -975,442 +752,5 @@
         if (allAudios.length) updateProgressUI();
     });
 </script>
-=======
-    <h1>Music Library</h1>
-
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Поиск артиста или песни..." onkeyup="searchMusic()">
-    </div>
-
-    <div class="grid-container">
-        <!-- КАНЬЕ УЭСТ -->
-        <div class="card" onclick="togglePlay('track1', this)">
-            <audio id="track1" src="music/runaway.mp3"></audio>
-            <img src="kw2.png" alt="Kanye West">
-            <h2>Runaway</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track1')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track2', this)">
-            <audio id="track2" src="music/iwonder.mp3"></audio>
-            <img src="kw2.png" alt="Kanye West">
-            <h2>I Wonder</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track2')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track3', this)">
-            <audio id="track3" src="music/hurricane.mp3"></audio>
-            <img src="kw2.png" alt="Kanye West">
-            <h2>Hurricane</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track3')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track4', this)">
-            <audio id="track4" src="music/heartless.mp3"></audio>
-            <img src="kw2.png" alt="Kanye West">
-            <h2>Heartless</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track4')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track5', this)">
-            <audio id="track5" src="music/paris.mp3"></audio>
-            <img src="kw2.png" alt="Kanye West">
-            <h2>Niggas In Paris</h2>
-            <p>Kanye West</p>
-            <p class="genre">Hip-Hop / Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track5')" title="Скачать">⬇</button>
-        </div>
-
-        <!-- КАЙ МЕТОВ -->
-        <div class="card" onclick="togglePlay('track6', this)">
-            <audio id="track6" src="music/vspomni.mp3"></audio>
-            <img src="km.jpg" alt="Кай Метов">
-            <h2>Вспомни Меня</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track6')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track7', this)">
-            <audio id="track7" src="music/position2.mp3"></audio>
-            <img src="km.jpg" alt="Кай Метов">
-            <h2>Position 2</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track7')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track8', this)">
-            <audio id="track8" src="music/ne_ponyala.mp3"></audio>
-            <img src="km.jpg" alt="Кай Метов">
-            <h2>А Ты Меня Не Поняла</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track8')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track9', this)">
-            <audio id="track9" src="music/dela.mp3"></audio>
-            <img src="km.jpg" alt="Кай Метов">
-            <h2>Такие Вот Дела</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track9')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track10', this)">
-            <audio id="track10" src="music/amore.mp3"></audio>
-            <img src="km.jpg" alt="Кай Метов">
-            <h2>Аморе Мио</h2>
-            <p>Кай Метов</p>
-            <p class="genre">Pop</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track10')" title="Скачать">⬇</button>
-        </div>
-
-        <!-- ICE CUBE -->
-        <div class="card" onclick="togglePlay('track11', this)">
-            <audio id="track11" src="music/check_yo_self.mp3"></audio>
-            <img src="ic.jpg" alt="Ice Cube">
-            <h2>Check Yo Self</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track11')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track12', this)">
-            <audio id="track12" src="music/smoke_weed.mp3"></audio>
-            <img src="ic.jpg" alt="Ice Cube">
-            <h2>Smoke Some Weed</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track12')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track13', this)">
-            <audio id="track13" src="music/why_we_thugs.mp3"></audio>
-            <img src="ic.jpg" alt="Ice Cube">
-            <h2>Why We Thugs</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track13')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track14', this)">
-            <audio id="track14" src="music/how_we_do_it.mp3"></audio>
-            <img src="ic.jpg" alt="Ice Cube">
-            <h2>You Know How We Do It</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track14')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track15', this)">
-            <audio id="track15" src="music/really_doe.mp3"></audio>
-            <img src="ic.jpg" alt="Ice Cube">
-            <h2>Really Doe</h2>
-            <p>Ice Cube</p>
-            <p class="genre">Gangsta Rap</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track15')" title="Скачать">⬇</button>
-        </div>
-
-        <!-- НИКОЛАЙ БАСКОВ -->
-        <div class="card" onclick="togglePlay('track16', this)">
-            <audio id="track16" src="music/sharmanka.mp3"></audio>
-            <img src="Baskov.webp" alt="Николай Басков">
-            <h2>Шарманка</h2>
-            <p>Николай Басков</p>
-            <p class="genre">Pop / Classic</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track16')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track17', this)">
-            <audio id="track17" src="music/naturalniy.mp3"></audio>
-            <img src="Baskov.webp" alt="Николай Басков">
-            <h2>Натуральный блондин</h2>
-            <p>Николай Басков</p>
-            <p class="genre">Pop / Classic</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track17')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track18', this)">
-            <audio id="track18" src="music/tvoi_glaza.mp3"></audio>
-            <img src="Baskov.webp" alt="Николай Басков">
-            <h2>Твои глаза</h2>
-            <p>Николай Басков</p>
-            <p class="genre">Pop / Classic</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track18')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track19', this)">
-            <audio id="track19" src="music/tango.mp3"></audio>
-            <img src="Baskov.webp" alt="Николай Басков">
-            <h2>Танго</h2>
-            <p>Николай Басков</p>
-            <p class="genre">Pop / Classic</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track19')" title="Скачать">⬇</button>
-        </div>
-        <div class="card" onclick="togglePlay('track20', this)">
-            <audio id="track20" src="music/na_nebesah.mp3"></audio>
-            <img src="Baskov.webp" alt="Николай Басков">
-            <h2>На Небесах</h2>
-            <p>Николай Басков</p>
-            <p class="genre">Pop / Classic</p>
-            <button class="download-btn" onclick="downloadTrack(event, 'track20')" title="Скачать">⬇</button>
-        </div>
-    </div>
-
-    <!-- ПЛЕЕР -->
-    <div class="player-controls">
-        <div class="controls-buttons">
-            <button class="btn" onclick="prevTrack()">⏮</button>
-            <button class="btn btn-main" id="masterPlay" onclick="masterToggle()">▶</button>
-            <button class="btn" onclick="nextTrack()">⏭</button>
-            <button class="btn btn-download" onclick="downloadCurrentTrack()" title="Скачать текущий трек">⬇</button>
-        </div>
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="time-info">
-            <span id="currentTime">0:00</span>
-            <span id="duration">0:00</span>
-        </div>
-    </div>
-
-    <script>
-        (function(){
-            "use strict";
-
-            // ---------- БЕЗОПАСНОЕ ИЗВЛЕЧЕНИЕ СРЕДНЕГО ЦВЕТА (с защитой от tainted canvas) ----------
-            function computeAverageColor(img) {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d', { willReadFrequently: true });
-                const size = 10;
-                canvas.width = size;
-                canvas.height = size;
-                // Рисуем изображение, масштабируя до 10x10
-                ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, 0, size, size);
-                const imageData = ctx.getImageData(0, 0, size, size);
-                const data = imageData.data;
-                let r = 0, g = 0, b = 0;
-                const pixelCount = size * size;
-                for (let i = 0; i < data.length; i += 4) {
-                    r += data[i];
-                    g += data[i+1];
-                    b += data[i+2];
-                }
-                r = Math.round(r / pixelCount);
-                g = Math.round(g / pixelCount);
-                b = Math.round(b / pixelCount);
-                return { r, g, b };
-            }
-
-            function getAverageColor(img) {
-                return new Promise((resolve) => {
-                    if (!img.complete || img.naturalWidth === 0) {
-                        img.onload = () => {
-                            try {
-                                resolve(computeAverageColor(img));
-                            } catch (e) {
-                                // tainted canvas или другая ошибка — fallback
-                                console.warn('Ошибка извлечения цвета (CORS/tainted), используем белый', e);
-                                resolve({ r: 255, g: 255, b: 255 });
-                            }
-                        };
-                        img.onerror = () => {
-                            resolve({ r: 255, g: 255, b: 255 });
-                        };
-                        return;
-                    }
-                    try {
-                        resolve(computeAverageColor(img));
-                    } catch (e) {
-                        console.warn('Ошибка извлечения цвета (CORS/tainted), используем белый', e);
-                        resolve({ r: 255, g: 255, b: 255 });
-                    }
-                });
-            }
-
-            async function applyColorToCard(card) {
-                const img = card.querySelector('img');
-                if (!img) return;
-                try {
-                    const { r, g, b } = await getAverageColor(img);
-                    const color = `rgb(${r}, ${g}, ${b})`;
-                    const shadow = `rgba(${r}, ${g}, ${b}, 0.35)`;
-                    card.style.setProperty('--accent-color', color);
-                    card.style.setProperty('--hover-shadow', shadow);
-                } catch (e) {
-                    // fallback
-                    card.style.setProperty('--accent-color', '#ffffff');
-                    card.style.setProperty('--hover-shadow', 'rgba(255,255,255,0.2)');
-                }
-            }
-
-            // Глобальная функция для применения цветов ко всем карточкам
-            window.applyDynamicColors = function() {
-                document.querySelectorAll('.card').forEach(card => applyColorToCard(card));
-            };
-
-            // ---------- ПОИСК ----------
-            function isSimilar(s1, s2) {
-                let longer = s1.length > s2.length ? s1 : s2;
-                let shorter = s1.length > s2.length ? s2 : s1;
-                if (longer.length === 0) return true;
-                let costs = [];
-                for (let i = 0; i <= longer.length; i++) {
-                    let lastValue = i;
-                    for (let j = 0; j <= shorter.length; j++) {
-                        if (i === 0) costs[j] = j;
-                        else {
-                            if (j > 0) {
-                                let newValue = costs[j - 1];
-                                if (longer.charAt(i - 1) !== shorter.charAt(j - 1))
-                                    newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                                costs[j - 1] = lastValue;
-                                lastValue = newValue;
-                            }
-                        }
-                    }
-                    if (i > 0) costs[shorter.length] = lastValue;
-                }
-                const distance = costs[shorter.length];
-                return (longer.length - distance) / longer.length > 0.7;
-            }
-
-            window.searchMusic = function() {
-                const input = document.getElementById('searchInput').value.toLowerCase().trim();
-                const inputNoSpaces = input.replace(/\s+/g, '');
-                document.querySelectorAll('.card').forEach(card => {
-                    if (input === "") {
-                        card.classList.remove('hidden');
-                        return;
-                    }
-                    const title = card.querySelector('h2').innerText.toLowerCase();
-                    const artist = card.querySelector('p').innerText.toLowerCase();
-                    const titleNoSpaces = title.replace(/\s+/g, '');
-                    const artistNoSpaces = artist.replace(/\s+/g, '');
-                    const match = title.includes(input) || artist.includes(input) ||
-                                  titleNoSpaces.includes(inputNoSpaces) || artistNoSpaces.includes(inputNoSpaces) ||
-                                  isSimilar(input, title) || isSimilar(input, artist);
-                    match ? card.classList.remove('hidden') : card.classList.add('hidden');
-                });
-            };
-
-            // ---------- СКАЧИВАНИЕ ----------
-            window.downloadTrack = function(event, audioId) {
-                event.stopPropagation();
-                const audio = document.getElementById(audioId);
-                if (!audio) return;
-                const url = audio.src;
-                const filename = url.substring(url.lastIndexOf('/') + 1) || 'track.mp3';
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            };
-
-            window.downloadCurrentTrack = function() {
-                const audio = allAudios[currentTrackIndex];
-                if (!audio) return;
-                const url = audio.src;
-                const filename = url.substring(url.lastIndexOf('/') + 1) || 'track.mp3';
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            };
-
-            // ---------- ПЛЕЕР ----------
-            let currentTrackIndex = 0;
-            let isPlaying = false;
-            const allAudios = document.querySelectorAll('audio');
-            const allCards = document.querySelectorAll('.card');
-            const masterPlay = document.getElementById('masterPlay');
-            const progressBar = document.getElementById('progressBar');
-            const progressContainer = document.getElementById('progressContainer');
-            const currentTimeSpan = document.getElementById('currentTime');
-            const durationSpan = document.getElementById('duration');
-
-            function formatTime(time) {
-                const min = Math.floor(time / 60);
-                const sec = Math.floor(time % 60);
-                return `${min}:${sec < 10 ? '0' + sec : sec}`;
-            }
-
-            function updateProgress(e) {
-                const audio = e.srcElement;
-                if (!audio || isNaN(audio.duration)) return;
-                const percent = (audio.currentTime / audio.duration) * 100;
-                progressBar.style.width = `${percent}%`;
-                currentTimeSpan.innerText = formatTime(audio.currentTime);
-                durationSpan.innerText = formatTime(audio.duration);
-                if (audio.currentTime >= audio.duration) nextTrack();
-            }
-
-            function pauseTrack() {
-                const audio = allAudios[currentTrackIndex];
-                audio.pause();
-                isPlaying = false;
-                masterPlay.innerText = "▶";
-                allCards[currentTrackIndex].style.opacity = "0.7";
-            }
-
-            function resumeTrack() {
-                const audio = allAudios[currentTrackIndex];
-                audio.play().catch(e => console.warn("Автовоспроизведение заблокировано"));
-                isPlaying = true;
-                masterPlay.innerText = "⏸";
-                allCards[currentTrackIndex].classList.add('playing');
-                allCards[currentTrackIndex].style.opacity = "1";
-                audio.ontimeupdate = updateProgress;
-            }
-
-            function playNewTrack(index) {
-                allAudios[currentTrackIndex].pause();
-                allAudios[currentTrackIndex].currentTime = 0;
-                allCards[currentTrackIndex].classList.remove('playing');
-                allCards[currentTrackIndex].style.opacity = "1";
-                currentTrackIndex = index;
-                resumeTrack();
-            }
-
-            window.togglePlay = function(id, element) {
-                const audio = document.getElementById(id);
-                const index = Array.from(allAudios).indexOf(audio);
-                if (currentTrackIndex === index) {
-                    audio.paused ? resumeTrack() : pauseTrack();
-                } else {
-                    playNewTrack(index);
-                }
-            };
-
-            window.masterToggle = () => isPlaying ? pauseTrack() : resumeTrack();
-            window.nextTrack = () => playNewTrack((currentTrackIndex + 1) % allAudios.length);
-            window.prevTrack = () => playNewTrack((currentTrackIndex - 1 + allAudios.length) % allAudios.length);
-
-            progressContainer.onclick = function(e) {
-                const audio = allAudios[currentTrackIndex];
-                if (!audio || isNaN(audio.duration)) return;
-                const width = this.clientWidth;
-                const clickX = e.offsetX;
-                audio.currentTime = (clickX / width) * audio.duration;
-            };
-
-            // ---------- ИНИЦИАЛИЗАЦИЯ ----------
-            window.addEventListener('load', () => {
-                // Небольшая задержка для уверенности, что все изображения начали загружаться
-                setTimeout(() => {
-                    applyDynamicColors();
-                }, 80);
-
-                allAudios.forEach(audio => {
-                    audio.addEventListener('loadedmetadata', () => {
-                        if (Array.from(allAudios).indexOf(audio) === currentTrackIndex) {
-                            durationSpan.innerText = formatTime(audio.duration);
-                        }
-                    });
-                });
-            });
-
-        })();
-    </script>
->>>>>>> ff1cb3d0acd78b602120ff927be36374065f5c72
 </body>
 </html>
